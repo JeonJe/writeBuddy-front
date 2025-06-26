@@ -1,0 +1,411 @@
+.stats-page {
+  min-height: 100vh;
+  background-color: #f8f9fb;
+  padding: 20px;
+}
+
+.stats-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.stats-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f3f4;
+}
+
+.stats-header h1 {
+  margin: 0 0 12px 0;
+  color: #191f28;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.stats-header p {
+  margin: 0;
+  color: #4e5968;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.stats-loading {
+  text-align: center;
+  padding: 80px 20px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f1f3f4;
+  border-top: 3px solid #1976d2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-card {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.error-card button {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f3f4;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-header h3 {
+  margin: 0 0 20px 0;
+  color: #191f28;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* 주요 점수 카드 */
+.primary-card {
+  grid-column: span 2;
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  color: white;
+  text-align: center;
+}
+
+.primary-card .card-header h3 {
+  color: white;
+  font-size: 1.4rem;
+}
+
+.score-display {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin: 24px 0;
+}
+
+.score-number {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.score-max {
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.score-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+/* 오늘의 통계 */
+.today-stats {
+  display: flex;
+  gap: 24px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #191f28;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* 피드백 통계 */
+.feedback-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feedback-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.feedback-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.feedback-icon {
+  font-size: 1.2rem;
+}
+
+.feedback-type {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.feedback-count {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #191f28;
+  min-width: 24px;
+  text-align: right;
+}
+
+.feedback-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 2px;
+  opacity: 0.3;
+}
+
+/* 점수 변화 추이 */
+.score-trend {
+  display: flex;
+  align-items: end;
+  gap: 8px;
+  height: 120px;
+  padding: 12px 0;
+}
+
+.trend-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.trend-bar {
+  width: 100%;
+  min-height: 4px;
+  border-radius: 2px;
+  transition: height 0.3s ease;
+}
+
+.trend-score {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.empty-trend {
+  text-align: center;
+  color: #6b7280;
+  padding: 20px;
+}
+
+.empty-trend p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+}
+
+/* 오류 패턴 */
+.error-patterns {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.error-section h4 {
+  margin: 0 0 12px 0;
+  color: #374151;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.error-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.error-item {
+  background: #f8f9fb;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border-left: 3px solid #ef4444;
+}
+
+.error-text {
+  font-size: 0.9rem;
+  color: #374151;
+  font-family: 'Courier New', monospace;
+}
+
+.empty-errors {
+  text-align: center;
+  color: #6b7280;
+  padding: 20px;
+}
+
+.empty-errors p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+}
+
+/* 성취도 */
+.achievements {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.achievement-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #f8f9fb;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.achievement-icon {
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.achievement-info {
+  flex: 1;
+}
+
+.achievement-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #191f28;
+  margin-bottom: 4px;
+}
+
+.achievement-desc {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .stats-page {
+    padding: 12px;
+  }
+
+  .stats-header {
+    padding: 32px 16px;
+    margin-bottom: 24px;
+  }
+
+  .stats-header h1 {
+    font-size: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .primary-card {
+    grid-column: span 1;
+  }
+
+  .stat-card {
+    padding: 20px;
+  }
+
+  .score-number {
+    font-size: 3rem;
+  }
+
+  .today-stats {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .score-trend {
+    height: 100px;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .primary-card {
+    grid-column: span 1;
+  }
+}

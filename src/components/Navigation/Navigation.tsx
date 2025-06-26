@@ -25,6 +25,13 @@ export const Navigation: React.FC = () => {
             <span className="nav-icon">📚</span>
             <span className="nav-text">내 기록</span>
           </NavLink>
+          <NavLink 
+            to="/stats" 
+            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+          >
+            <span className="nav-icon">📊</span>
+            <span className="nav-text">통계</span>
+          </NavLink>
         </div>
       </div>
     </nav>
