@@ -1,32 +1,31 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import './Navigation.css';
 
-interface NavigationProps {
-  currentPage: 'home' | 'statistics';
-  onPageChange: (page: 'home' | 'statistics') => void;
-}
-
-export const Navigation: React.FC<NavigationProps> = ({
-  currentPage,
-  onPageChange,
-}) => {
+export const Navigation: React.FC = () => {
   return (
     <nav className="navigation">
       <div className="nav-container">
-        <button
-          onClick={() => onPageChange('home')}
-          className={`nav-button ${currentPage === 'home' ? 'active' : ''}`}
-        >
-          <span className="nav-icon">✍️</span>
-          <span className="nav-text">교정하기</span>
-        </button>
-        <button
-          onClick={() => onPageChange('statistics')}
-          className={`nav-button ${currentPage === 'statistics' ? 'active' : ''}`}
-        >
-          <span className="nav-icon">📊</span>
-          <span className="nav-text">통계보기</span>
-        </button>
+        <div className="nav-brand">
+          <h1>WriteBuddy</h1>
+          <span className="nav-tagline">영어가 쉬워지는 곳</span>
+        </div>
+        <div className="nav-links">
+          <NavLink 
+            to="/" 
+            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+          >
+            <span className="nav-icon">✨</span>
+            <span className="nav-text">교정하기</span>
+          </NavLink>
+          <NavLink 
+            to="/history" 
+            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+          >
+            <span className="nav-icon">📚</span>
+            <span className="nav-text">내 기록</span>
+          </NavLink>
+        </div>
       </div>
     </nav>
   );

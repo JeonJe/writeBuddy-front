@@ -1,19 +1,23 @@
 .correction-input {
   background: white;
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-  border: 1px solid rgba(255,255,255,0.2);
-  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f3f4;
 }
 
-.correction-input h2 {
-  margin: 0 0 1rem 0;
-  color: #2d3748;
+.input-header {
   text-align: center;
-  font-size: 1.5rem;
+  margin-bottom: 24px;
+}
+
+.input-header h2 {
+  margin: 0;
+  color: #191f28;
+  font-size: 1.3rem;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .input-container {
@@ -123,19 +127,73 @@
   gap: 1rem;
 }
 
+/* 명언 제안 스타일 */
+.quote-suggestions {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.suggestions-title {
+  margin: 0 0 20px 0;
+  color: #4e5968;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.quote-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px;
+}
+
+.quote-button {
+  background: #f8f9fb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 0.85rem;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.quote-button:hover {
+  background: #f3f4f6;
+  border-color: #1976d2;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.1);
+}
+
 @media (max-width: 768px) {
   .correction-input {
-    padding: 1rem;
-    margin-bottom: 1rem;
+    padding: 24px;
+    margin-bottom: 20px;
   }
   
   .input-actions {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 12px;
   }
   
   .correct-button {
     align-self: stretch;
     width: 100%;
+  }
+
+  .quote-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .quote-button {
+    padding: 12px;
+    font-size: 0.8rem;
+  }
+
+  .hero-section h1 {
+    font-size: 1.6rem;
   }
 }

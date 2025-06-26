@@ -18,44 +18,60 @@ export const CorrectionResult: React.FC<CorrectionResultProps> = ({
 }) => {
   return (
     <section className="correction-result">
-      <h3>교정 결과</h3>
-      <div className="result-card">
-        <div className="sentence-pair">
-          <div className="original">
-            <strong>원문:</strong> {correction.originSentence}
-          </div>
-          <div className="corrected">
-            <strong>교정:</strong> {correction.correctedSentence}
-          </div>
-        </div>
-        
-        <div className="feedback">
-          <strong>피드백:</strong> {correction.feedback}
-        </div>
-        
+      <div className="result-header">
+        <h3>✨ 훨씬 더 멋져졌어요!</h3>
         <div className="result-meta">
           {correction.score && (
             <span className={`score score-${getScoreLevel(correction.score)}`}>
-              점수: {correction.score}/10
+              {correction.score}/10
             </span>
           )}
-          <span className="feedback-type">
-            {correction.feedbackType}
-          </span>
           <button 
             onClick={() => onToggleFavorite(correction.id)}
             className={`favorite-btn ${correction.isFavorite ? 'favorited' : ''}`}
           >
-            {correction.isFavorite ? '⭐' : '☆'} 즐겨찾기
+            {correction.isFavorite ? '💖' : '🤍'}
           </button>
+        </div>
+      </div>
+
+      <div className="result-card">
+        <div className="sentence-comparison">
+          <div className="sentence-block original-block">
+            <div className="sentence-label">원문</div>
+            <div className="sentence-content">{correction.originSentence}</div>
+            {correction.originTranslation && (
+              <div className="translation">💬 {correction.originTranslation}</div>
+            )}
+          </div>
+          
+          <div className="sentence-arrow">→</div>
+          
+          <div className="sentence-block corrected-block">
+            <div className="sentence-label">교정</div>
+            <div className="sentence-content">{correction.correctedSentence}</div>
+            {correction.correctedTranslation && (
+              <div className="translation">💬 {correction.correctedTranslation}</div>
+            )}
+          </div>
+        </div>
+        
+        <div className="feedback-section">
+          <div className="feedback-label">🧠 AI 피드백</div>
+          <div className="feedback-content">{correction.feedback}</div>
+          <div className="feedback-type-badge" data-type={correction.feedbackType}>
+            {correction.feedbackType}
+          </div>
         </div>
 
         {correction.relatedExamples && correction.relatedExamples.length > 0 && (
-          <RealExamplesList
-            examples={correction.relatedExamples}
-            title="관련 실제 사용 예시"
-            onTagClick={onTagClick}
-          />
+          <div className="examples-section">
+            <RealExamplesList
+              examples={correction.relatedExamples}
+              title="🎬 실제 사용 예시"
+              onTagClick={onTagClick}
+            />
+          </div>
         )}
       </div>
     </section>
