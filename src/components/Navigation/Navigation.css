@@ -1,0 +1,138 @@
+.navigation {
+  background: white;
+  border-bottom: 1px solid #f1f3f4;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.nav-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.nav-brand h1 {
+  margin: 0;
+  color: #191f28;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.nav-tagline {
+  font-size: 0.75rem;
+  color: #8b95a1;
+  font-weight: 500;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #4e5968;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  font-size: 0.9rem;
+  position: relative;
+}
+
+.nav-link:hover {
+  background-color: #f8f9fb;
+  color: #191f28;
+  transform: translateY(-1px);
+}
+
+.nav-link.active {
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+}
+
+.nav-link.active:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4);
+}
+
+.nav-icon {
+  font-size: 1.1rem;
+}
+
+.nav-text {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+/* 액티브 링크 애니메이션 */
+.nav-link.active::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 3px;
+  background: #1976d2;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 16px;
+    height: 64px;
+  }
+
+  .nav-brand h1 {
+    font-size: 1.3rem;
+  }
+
+  .nav-tagline {
+    font-size: 0.7rem;
+  }
+
+  .nav-links {
+    gap: 4px;
+  }
+
+  .nav-link {
+    padding: 8px 12px;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 60px;
+  }
+
+  .nav-icon {
+    font-size: 1rem;
+  }
+
+  .nav-text {
+    font-size: 0.75rem;
+  }
+
+  .nav-link.active::before {
+    display: none;
+  }
+}

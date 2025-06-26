@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { 
-  Header, 
   CorrectionInput, 
   CorrectionResult, 
-  CorrectionHistory 
+  FloatingChatButton,
+  LoadingState,
+  Toast
 } from '../components';
-import { useCorrections } from '../hooks';
+import { useCorrections, useToast } from '../hooks';
+import './HomePage.css';
 
-export const HomePage: React.FC = () => {
+interface HomePageProps {
+  onOpenChat: () => void;
+}
+
+export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
+  
   const {
-    corrections,
     currentCorrection,
     isLoading,
     error,
@@ -19,11 +25,24 @@ export const HomePage: React.FC = () => {
     clearError,
   } = useCorrections();
 
+  const { toasts, showSuccess, removeToast } = useToast();
+
+  // 교정 완료 시 토스트 표시
+  useEffect(() => {
+    if (currentCorrection && !isLoading) {
+      showSuccess('훨씬 더 멋져졌어요! ✨');
+    }
+  }, [currentCorrection, isLoading, showSuccess]);
+
   return (
     <div className="home-page">
-      <Header />
+      <FloatingChatButton onClick={onOpenChat} />
       
       <main className="main-content">
+        <div className="hero-section">
+          <h1>Error 404: Grammar Not Found  👨‍💻</h1>
+        </div>
+
         {error && (
           <div className="error-message">
             {error}
@@ -37,32 +56,38 @@ export const HomePage: React.FC = () => {
           </div>
         )}
         
-        <div className="content-layout">
-          <div className="left-panel">
-            <CorrectionInput 
-              onCorrect={createCorrection}
-              isLoading={isLoading}
-            />
-            
-            {currentCorrection && (
-              <CorrectionResult
-                correction={currentCorrection}
-                onToggleFavorite={toggleFavorite}
-                getScoreLevel={getScoreLevel}
-                onTagClick={(tag) => console.log('Tag clicked:', tag)}
-              />
-            )}
-          </div>
+        <div className="content-container">
+          <CorrectionInput 
+            onCorrect={createCorrection}
+            isLoading={isLoading}
+          />
           
-          <div className="right-panel">
-            <CorrectionHistory
-              corrections={corrections}
+          {isLoading && (
+            <LoadingState message="✨ 마법을 부리는 중..." />
+          )}
+          
+          {currentCorrection && !isLoading && (
+            <CorrectionResult
+              correction={currentCorrection}
               onToggleFavorite={toggleFavorite}
               getScoreLevel={getScoreLevel}
+              onTagClick={(tag) => console.log('Tag clicked:', tag)}
             />
-          </div>
+          )}
         </div>
       </main>
+
+      {/* 토스트 알림 */}
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          message={toast.message}
+          type={toast.type}
+          duration={toast.duration}
+          isVisible={true}
+          onClose={() => removeToast(toast.id)}
+        />
+      ))}
     </div>
   );
 };

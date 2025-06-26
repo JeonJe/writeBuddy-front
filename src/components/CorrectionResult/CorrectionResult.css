@@ -1,75 +1,198 @@
 .correction-result {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-  border: 1px solid rgba(255,255,255,0.2);
-  backdrop-filter: blur(10px);
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f3f4;
+  animation: slideInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-origin: bottom;
 }
 
-.correction-result h3 {
-  margin: 0 0 1rem 0;
-  color: #2d3748;
-  text-align: center;
-  font-size: 1.25rem;
-  font-weight: 600;
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.result-header h3 {
+  margin: 0;
+  color: #191f28;
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 
 .result-card {
-  border: 1px solid rgba(226, 232, 240, 0.5);
+  background: #fafafa;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #f1f3f4;
+}
+
+.sentence-comparison {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.sentence-block {
+  flex: 1;
+  background: white;
   border-radius: 12px;
-  padding: 1.25rem;
-  background: rgba(248, 250, 252, 0.5);
+  padding: 16px;
+  border: 1px solid #e5e7eb;
 }
 
-.sentence-pair {
-  margin-bottom: 1rem;
-  display: grid;
-  gap: 0.75rem;
+.sentence-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.original, .corrected {
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  line-height: 1.6;
-  font-size: 0.95rem;
-  border-left: 4px solid;
+.sentence-content {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #191f28;
+  font-weight: 500;
 }
 
-.original {
-  background: rgba(254, 226, 226, 0.7);
-  border-left-color: #ef4444;
+.original-block {
+  border-left: 4px solid #ef4444;
+}
+
+.original-block .sentence-content {
   color: #dc2626;
 }
 
-.corrected {
-  background: rgba(220, 252, 231, 0.7);
-  border-left-color: #10b981;
+.corrected-block {
+  border-left: 4px solid #10b981;
+}
+
+.corrected-block .sentence-content {
   color: #059669;
 }
 
-.feedback {
-  background: rgba(238, 242, 255, 0.8);
-  padding: 1rem 1.25rem;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-  color: #4c51bf;
-  line-height: 1.6;
-  border-left: 4px solid #6366f1;
-  font-size: 0.9rem;
+.sentence-arrow {
+  font-size: 1.5rem;
+  color: #1976d2;
+  font-weight: bold;
+  flex-shrink: 0;
 }
 
-.feedback strong {
-  color: #4338ca;
+.translation {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.feedback-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  position: relative;
+}
+
+.feedback-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1976d2;
+  margin-bottom: 12px;
+}
+
+.feedback-content {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #374151;
+  margin-bottom: 16px;
+}
+
+.feedback-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+/* 피드백 타입별 스타일 */
+.feedback-type-badge {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+.feedback-type-badge[data-type="GRAMMAR"] {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #1d4ed8;
+  border-color: #3b82f6;
+}
+
+.feedback-type-badge[data-type="GRAMMAR"]::before {
+  content: "📝";
+}
+
+.feedback-type-badge[data-type="SPELLING"] {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #d97706;
+  border-color: #f59e0b;
+}
+
+.feedback-type-badge[data-type="SPELLING"]::before {
+  content: "🔤";
+}
+
+.feedback-type-badge[data-type="STYLE"] {
+  background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+  color: #7c3aed;
+  border-color: #8b5cf6;
+}
+
+.feedback-type-badge[data-type="STYLE"]::before {
+  content: "✨";
+}
+
+.feedback-type-badge[data-type="PUNCTUATION"] {
+  background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+  color: #dc2626;
+  border-color: #ef4444;
+}
+
+.feedback-type-badge[data-type="PUNCTUATION"]::before {
+  content: "❗";
+}
+
+.feedback-type-badge[data-type="SYSTEM"] {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: #6b7280;
+  border-color: #9ca3af;
+}
+
+.feedback-type-badge[data-type="SYSTEM"]::before {
+  content: "⚙️";
 }
 
 .result-meta {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  gap: 12px;
+}
+
+.examples-section {
+  margin-top: 24px;
 }
 
 .score {
@@ -143,24 +266,183 @@
 
 @media (max-width: 768px) {
   .correction-result {
-    padding: 1.25rem;
+    padding: 24px;
+    margin-bottom: 24px;
   }
   
   .result-card {
-    padding: 1rem;
+    padding: 20px;
+  }
+
+  .sentence-comparison {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sentence-arrow {
+    transform: rotate(90deg);
+    align-self: center;
   }
   
-  .sentence-pair {
-    gap: 0.5rem;
+  .sentence-block {
+    padding: 12px;
   }
-  
-  .original, .corrected {
-    padding: 0.625rem 0.875rem;
-    font-size: 0.9rem;
+
+  .feedback-section {
+    padding: 16px;
+  }
+
+  .feedback-type-badge {
+    position: static;
+    margin-top: 12px;
   }
   
   .result-meta {
-    gap: 0.5rem;
+    gap: 8px;
     justify-content: center;
   }
+
+  .result-header h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* 애니메이션 키프레임 */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeInStagger {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* 각 섹션별 애니메이션 딜레이 */
+.result-header {
+  animation: fadeInStagger 0.5s ease-out 0.1s both;
+}
+
+.sentence-comparison {
+  animation: fadeInStagger 0.5s ease-out 0.2s both;
+}
+
+.sentence-block {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sentence-block:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.sentence-arrow {
+  animation: fadeInStagger 0.5s ease-out 0.25s both;
+  transition: transform 0.3s ease;
+}
+
+.sentence-arrow:hover {
+  transform: scale(1.2);
+}
+
+.feedback-section {
+  animation: fadeInStagger 0.5s ease-out 0.3s both;
+}
+
+.feedback-type-badge {
+  animation: scaleIn 0.4s ease-out 0.4s both;
+  transition: transform 0.2s ease;
+}
+
+.feedback-type-badge:hover {
+  transform: scale(1.05);
+}
+
+.examples-section {
+  animation: fadeInStagger 0.5s ease-out 0.35s both;
+}
+
+/* 점수 카운터 애니메이션 */
+.score {
+  animation: scaleIn 0.4s ease-out 0.5s both;
+  position: relative;
+  overflow: hidden;
+}
+
+.score::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -200px;
+  width: 200px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shimmer 2s ease-in-out 1s;
+}
+
+/* 즐겨찾기 버튼 애니메이션 */
+.favorite-btn {
+  animation: scaleIn 0.4s ease-out 0.6s both;
+  position: relative;
+  overflow: hidden;
+}
+
+.favorite-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.favorite-btn:active::before {
+  width: 100px;
+  height: 100px;
+}
+
+/* 번역 텍스트 애니메이션 */
+.translation {
+  animation: fadeInStagger 0.4s ease-out 0.7s both;
 }

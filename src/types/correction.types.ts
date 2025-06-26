@@ -8,7 +8,9 @@ export interface Correction {
   isFavorite: boolean;
   memo: string | null;
   createdAt: string;
-  relatedExamples?: RealExample[];
+  originTranslation: string | null;    // 원문의 한국어 번역
+  correctedTranslation: string | null; // 교정문의 한국어 번역
+  relatedExamples: RealExample[];      // 관련 실제 사용 예시
 }
 
 export interface CreateCorrectionRequest {
@@ -76,3 +78,13 @@ export enum ExampleSourceType {
 }
 
 export type DifficultyLevel = 'beginner' | 'intermediate' | 'upper-intermediate' | 'advanced';
+
+export interface ChatResponse {
+  question: string;
+  answer: string;
+  createdAt: string;
+}
+
+export interface ChatRequest {
+  question: string;
+}
