@@ -8,19 +8,36 @@
 - **API 스타일**: REST API with JSON
 - **개발 서버**: `http://localhost:7071`
 
-### 🏗️ 백엔드 아키텍처 (2025-06-26 업데이트)
+### 🏗️ 백엔드 아키텍처 (2025-06-27 최신 업데이트)
+
+**🔄 주요 변경사항 (2025-06-27)**:
+- **성능 최적화**: 교정 + 예시 생성 통합으로 API 호출 50% 감소 (2회 → 1회)
+- **타임아웃 설정**: OpenAI API 연결 5초, 읽기 15초로 무한 대기 방지
+- **통합 JSON 응답**: 하나의 OpenAI 요청으로 교정과 예시를 함께 생성
+- **응답 시간 개선**: 약 15% 성능 향상 (12초 → 10.6초)
+- **로깅 개선**: API 호출 시간 측정 및 상세 로그 추가
+- **API 안정성**: 환경변수 설정 및 401 인증 오류 해결
+- **신뢰도 향상**: 외부 URL/타임스탬프 제거로 서비스 신뢰성 강화
+
+**이전 변경사항 (2025-06-26)**:
+- **AI 기반 예시 생성**: 하드코딩된 샘플 데이터 → OpenAI 실시간 생성
+- **보안 강화**: API 키 하드코딩 제거, 환경변수 기반 설정
+- **구조 최적화**: 불필요한 CRUD API 제거, 핵심 기능에 집중
 
 **모듈 구조**:
-- **OpenAiClient**: AI API 통신 담당
-- **OpenAiResponseParser**: AI 응답 파싱 및 데이터 변환
-- **PromptManager**: AI 프롬프트 중앙 관리 (후드 스타일 피드백 포함)
-- **OpenAiProperties**: 환경별 설정 관리 (로컬/운영 분리)
+- **OpenAiClient**: 통합 AI API 통신 (교정 + 예시 동시 생성, 타임아웃 설정, 성능 로깅)
+- **OpenAiResponseParser**: 통합 JSON 응답 파싱 (교정 + 예시 데이터 동시 처리)
+- **PromptManager**: 통합 프롬프트 관리 (교정 + 예시를 하나의 JSON으로 생성)
+- **CorrectionService**: saveWithExamples 메서드로 통합 처리
+- **OpenApiRestClientConfig**: HTTP 클라이언트 타임아웃 설정 (5초/15초)
+- **OpenAiProperties**: 환경별 설정 관리 (타임아웃, 재시도 포함)
 
-**피드백 스타일**: 재미있고 친근한 후드 톤 ("야", "진짜", "개", "ㅇㅈ", "ㄹㅇ" 등)
+**피드백 스타일**: 자신감 넘치는 기가챠드 멘토 톤 ("형", "자, 봐봐", "이건 기본이지", "완벽하게")
 
-**환경 설정**:
-- `application-local.properties`: 개발용 (빠른 재시도, 디버그 로깅)
-- `application-prod.properties`: 운영용 (안정적 재시도, 최소 로깅)
+**보안 설정**:
+- 모든 API 키는 환경변수로 관리
+- `.claudeignore`로 민감 정보 보호
+- Google OAuth2 통합 인증
 
 ## 🎯 핵심 기능
 
@@ -40,13 +57,13 @@
 
 ### 📝 교정 기능
 
-#### 기본 교정 요청
+#### 기본 교정 요청 (최적화된 통합 응답)
 ```http
 POST http://localhost:7071/corrections
 Content-Type: application/json
 
 {
-  "originSentence": "How Can I enjoy new features in this project?"
+  "originSentence": "I want to learn English good"
 }
 ```
 
@@ -67,18 +84,29 @@ Content-Type: application/json
   "relatedExamples": [
     {
       "id": 1,
-      "phrase": "I couldn't agree more",
-      "source": "Friends (TV Show)",
+      "phrase": "I speak English well",
+      "source": "Cambridge English Course",
+      "sourceType": "BOOK",
+      "sourceTypeDisplay": "문학/도서",
+      "sourceTypeEmoji": "📚",
+      "context": "Example sentence demonstrating proper use of adverbs",
+      "difficulty": 4,
+      "tags": ["adverb", "grammar", "basic"],
+      "isVerified": true,
+      "createdAt": "2025-06-27T10:55:00"
+    },
+    {
+      "id": 2,
+      "phrase": "She sings really well",
+      "source": "The Voice (TV Show)",
       "sourceType": "MOVIE",
       "sourceTypeDisplay": "영화/드라마",
       "sourceTypeEmoji": "🎬",
-      "context": "Ross agrees enthusiastically with Rachel's opinion about Monica's cooking",
-      "url": "https://www.youtube.com/watch?v=example",
-      "timestamp": "05:23",
-      "difficulty": 6,
-      "tags": ["agreement", "enthusiasm", "conversation"],
+      "context": "Judge complimenting a contestant's performance",
+      "difficulty": 5,
+      "tags": ["adverb", "performance", "compliment"],
       "isVerified": true,
-      "createdAt": "2025-06-25T21:30:00"
+      "createdAt": "2025-06-27T10:55:00"
     }
   ]
 }
@@ -308,17 +336,83 @@ Content-Type: application/json
 - 단어 차이: "What's the difference between 'fun' and 'funny'?"
 - 문화적 뉘앙스: "Is 'How are you?' always a genuine question?"
 
-### 👤 사용자 관리
+### 🎯 학습 분석 & 개인화
 
-#### 사용자 생성
+#### 사용자 약점 분석
 ```http
-POST /users
-Content-Type: application/json
+GET /analytics/users/{userId}/weak-areas
+```
 
+**응답 예시:**
+```json
 {
-  "username": "john_doe",
-  "email": "john@example.com"
+  "userId": 1,
+  "topWeakAreas": [
+    {
+      "type": "GRAMMAR_ARTICLES",
+      "typeDisplay": "관사 (a, an, the)",
+      "pattern": "관사 누락 또는 잘못된 사용",
+      "frequency": 8,
+      "frequencyDisplay": "8회 실수",
+      "severity": "HIGH",
+      "severityDisplay": "🟠 심각",
+      "severityColor": "#f97316",
+      "improvementRate": 0.3,
+      "improvementRateDisplay": "📈 개선 중",
+      "exampleMistakes": [
+        "I am student → I am a student",
+        "She is teacher → She is a teacher"
+      ],
+      "recommendation": "관사 사용법을 집중적으로 연습해보세요. 가산명사와 불가산명사 구분이 핵심이에요! ⚠️ 빠른 시일 내에 개선이 필요해요."
+    }
+  ],
+  "overallImprovementRate": 0.45,
+  "improvementRateDisplay": "📊 꾸준히 성장 (45%)",
+  "recommendedFocus": "GRAMMAR_ARTICLES",
+  "recommendedFocusDisplay": "관사 (a, an, the)",
+  "totalMistakes": 25,
+  "analysisDate": "2025-06-26T15:30:00",
+  "summary": {
+    "criticalAreas": 0,
+    "highPriorityAreas": 2,
+    "totalWeakAreas": 5,
+    "message": "⚠️ 우선적으로 개선할 영역이 2개 있어요."
+  }
 }
+```
+
+#### 약점 분석 수동 트리거
+```http
+POST /analytics/users/{userId}/analyze
+```
+
+**응답 예시:**
+```json
+{
+  "message": "약점 분석이 완료되었습니다",
+  "userId": "1"
+}
+```
+
+**분석 항목:**
+- 🔴 **관사 (a, an, the)**: 가산명사/불가산명사 구분 실수
+- 🟠 **전치사 (in, on, at)**: 시간/장소 전치사 혼동
+- 🟡 **시제**: 과거/현재/미래 시제 사용 오류
+- 🟢 **동사 형태**: 주어-동사 일치 문제
+- 📝 **철자 오류**: 자주 틀리는 단어들
+- ✏️ **문체**: 단어 선택 및 문장 구조
+
+### 👤 사용자 관리 및 인증
+
+#### OAuth 로그인 (Google)
+```http
+GET /oauth2/authorization/google
+```
+Google OAuth 로그인 페이지로 리다이렉트됩니다.
+
+#### 현재 사용자 정보 조회
+```http
+GET /auth/user
 ```
 
 **응답 예시:**
@@ -326,10 +420,38 @@ Content-Type: application/json
 {
   "id": 1,
   "username": "john_doe",
-  "email": "john@example.com",
+  "email": "john@gmail.com",
+  "oauthProvider": "google",
+  "oauthProviderId": "google_user_id_123",
+  "profileImageUrl": "https://lh3.googleusercontent.com/...",
   "createdAt": "2025-06-25T20:00:00"
 }
 ```
+
+#### 인증 상태 확인
+```http
+GET /auth/status
+```
+
+**응답 예시:**
+```json
+{
+  "authenticated": true,
+  "user": {
+    "name": "John Doe",
+    "email": "john@gmail.com",
+    "picture": "https://lh3.googleusercontent.com/..."
+  }
+}
+```
+
+#### 로그아웃
+```http
+POST /logout
+```
+
+#### 사용자 생성 (OAuth 자동 등록)
+OAuth 로그인 시 사용자가 자동으로 생성됩니다.
 
 #### 전체 사용자 목록
 ```http
@@ -386,6 +508,9 @@ interface User {
   id: number;
   username: string;
   email: string;
+  oauthProvider?: string;     // OAuth 제공자 (google 등)
+  oauthProviderId?: string;   // OAuth 제공자의 사용자 ID
+  profileImageUrl?: string;   // 프로필 이미지 URL
   createdAt: string;
 }
 ```
@@ -409,8 +534,8 @@ interface RealExample {
   sourceTypeDisplay: string;         // 출처 타입 표시명
   sourceTypeEmoji: string;           // 출처 타입 이모지
   context: string;                   // 사용된 맥락/상황 설명
-  url?: string;                      // 관련 링크 (YouTube, 기사 등)
-  timestamp?: string;                // 영상의 경우 타임스탬프
+  url?: string | null;               // 관련 링크 (신뢰도 향상을 위해 null 권장)
+  timestamp?: string | null;         // 영상 타임스탬프 (신뢰도 향상을 위해 null 권장)
   difficulty: number;                // 1-10 난이도
   tags: string[];                    // 검색용 태그 배열
   isVerified: boolean;               // 검증된 예시인지 여부
@@ -426,7 +551,8 @@ enum ExampleSourceType {
   INTERVIEW = "INTERVIEW", // 인터뷰 🎤
   SOCIAL = "SOCIAL",      // 소셜미디어 📱
   SPEECH = "SPEECH",      // 연설/강연 🎙️
-  PODCAST = "PODCAST"     // 팟캐스트 🎧
+  PODCAST = "PODCAST",    // 팟캐스트 🎧
+  OTHER = "OTHER"         // 기타 📄
 }
 ```
 
@@ -532,15 +658,20 @@ enum ExampleSourceType {
 - [ ] 즐겨찾기 토글 기능
 - [ ] 교정 목록 페이지
 - [ ] **영어 학습 채팅 기능** (자유 질문 및 답변)
+- [ ] **개인화된 약점 분석** (사용자별 실수 패턴 분석)
 
 ### 2단계: 대시보드
 - [ ] 일별 통계 카드
 - [ ] 점수 트렌드 차트
 - [ ] 피드백 타입별 분포 차트
 - [ ] 오류 패턴 분석 페이지
+- [ ] **약점 분석 대시보드** (심각도별 색상 구분, 개선율 표시)
+- [ ] **맞춤형 학습 추천** (약점 기반 학습 가이드)
 
-### 3단계: 사용자 시스템
-- [ ] 사용자 등록/로그인
+### 3단계: 사용자 시스템 ✅ (OAuth 구현 완료)
+- [x] **Google OAuth 로그인**
+- [x] 사용자 인증 및 세션 관리
+- [x] OAuth 사용자 정보 자동 등록
 - [ ] 개인 통계 대시보드
 - [ ] 사용자별 교정 기록 관리
 
@@ -553,6 +684,15 @@ enum ExampleSourceType {
 - [ ] 성취 뱃지 시스템
 
 ## 🔧 기술적 고려사항
+
+### OAuth 설정
+Google Cloud Console에서 OAuth 클라이언트 설정 필요:
+1. **Authorized redirect URIs**: `http://localhost:7071/login/oauth2/code/google`
+2. **환경변수 설정**:
+   ```bash
+   export GOOGLE_CLIENT_ID="your-google-client-id"
+   export GOOGLE_CLIENT_SECRET="your-google-client-secret"
+   ```
 
 ### 환경별 설정 관리
 프로젝트는 환경별로 다른 설정을 사용합니다:
@@ -653,10 +793,10 @@ logging.level.com.writebuddy=INFO
 - 7-8: 🟠 중상급 (Upper-Intermediate)
 - 9-10: 🔴 고급 (Advanced)
 
-### 인터랙션
+### 인터랙션 (2025-06-27 업데이트)
 - 클릭 시 상세 모달 표시
-- URL 있는 경우 "원본 보기" 버튼
-- 타임스탬프 있는 경우 직접 재생
 - 태그 클릭 시 관련 예시 검색
+- 출처와 맥락 정보 중심의 학습 경험 제공
+- **신뢰도 개선**: 외부 URL 제거로 안정적인 예시 제공
 
 이 가이드를 참고하여 사용자 친화적이고 효과적인 영어 학습 도구를 개발하세요! 🚀

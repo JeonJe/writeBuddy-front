@@ -10,6 +10,7 @@ export const getSourceTypeColor = (sourceType: ExampleSourceType): string => {
     [ExampleSourceType.SOCIAL]: '#ec4899', // 핑크색
     [ExampleSourceType.SPEECH]: '#6b7280', // 회색
     [ExampleSourceType.PODCAST]: '#22c55e', // 초록색
+    [ExampleSourceType.OTHER]: '#64748b', // 슬레이트 회색
   };
   return colors[sourceType] || '#6b7280';
 };
