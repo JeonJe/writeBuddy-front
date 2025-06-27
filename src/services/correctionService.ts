@@ -75,4 +75,12 @@ export const correctionService = {
   async getErrorPatterns(): Promise<ErrorPatterns> {
     return apiClient.get(API_CONFIG.ENDPOINTS.ERROR_PATTERNS);
   },
+
+  /**
+   * 사용자별 잘한 표현(10점 만점 문장들)을 조회합니다.
+   */
+  async getUserGoodExpressions(userId: number): Promise<Correction[]> {
+    const endpoint = API_CONFIG.ENDPOINTS.GOOD_EXPRESSIONS.replace('{userId}', userId.toString());
+    return apiClient.get<Correction[]>(endpoint);
+  },
 };

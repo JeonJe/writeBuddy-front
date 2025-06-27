@@ -10,6 +10,7 @@ export const API_CONFIG = {
     DAILY_DASHBOARD: '/corrections/dashboard/daily',
     SCORE_TREND: '/corrections/dashboard/score-trend',
     ERROR_PATTERNS: '/corrections/dashboard/error-patterns',
+    GOOD_EXPRESSIONS: '/corrections/users/{userId}/good-expressions',
   },
 } as const;
 

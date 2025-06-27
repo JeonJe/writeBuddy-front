@@ -31,7 +31,7 @@ export const CorrectionInput: React.FC<CorrectionInputProps> = ({
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && e.ctrlKey) {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
       handleSubmit();
     }
   };
@@ -56,7 +56,7 @@ export const CorrectionInput: React.FC<CorrectionInputProps> = ({
           rows={3}
         />
         <div className="input-actions">
-          <p className="input-hint">⚡ Ctrl + Enter로 바로바로</p>
+          <p className="input-hint">⚡ Ctrl/Cmd + Enter로 바로바로</p>
           <button 
             onClick={handleSubmit}
             disabled={isLoading || !inputText.trim()}

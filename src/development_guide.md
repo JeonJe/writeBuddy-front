@@ -18,6 +18,8 @@
 - **로깅 개선**: API 호출 시간 측정 및 상세 로그 추가
 - **API 안정성**: 환경변수 설정 및 401 인증 오류 해결
 - **신뢰도 향상**: 외부 URL/타임스탬프 제거로 서비스 신뢰성 강화
+- **통계 개선**: 10점 만점 문장을 실수 통계에서 제외, '잘한 표현'으로 별도 분류
+- **새 API**: `/corrections/users/{userId}/good-expressions` 엔드포인트 추가
 
 **이전 변경사항 (2025-06-26)**:
 - **AI 기반 예시 생성**: 하드코딩된 샘플 데이터 → OpenAI 실시간 생성
@@ -70,45 +72,45 @@ Content-Type: application/json
 **응답 예시:**
 ```json
 {
-  "id": 1,
-  "originSentence": "How Can I enjoy new features in this project?",
-  "correctedSentence": "How can I enjoy the new features in this project?",
-  "feedback": "야 이거 완전 기본기야! 대문자로 시작하는 건 문장 맨 처음이나 고유명사일 때만이고, 'the'는 특정한 것을 가리킬 때 꼭 써줘야 해. 'new features'라고 하면 어떤 기능들인지 명확하게 해주는 거야!",
-  "feedbackType": "GRAMMAR",
-  "score": 7,
-  "isFavorite": false,
-  "memo": null,
-  "createdAt": "2025-06-25T21:30:00",
-  "originTranslation": "이 프로젝트의 새로운 기능들을 어떻게 즐길 수 있을까요?",
-  "correctedTranslation": "이 프로젝트의 새로운 기능들을 어떻게 즐길 수 있을까요?",
-  "relatedExamples": [
-    {
-      "id": 1,
-      "phrase": "I speak English well",
-      "source": "Cambridge English Course",
-      "sourceType": "BOOK",
-      "sourceTypeDisplay": "문학/도서",
-      "sourceTypeEmoji": "📚",
-      "context": "Example sentence demonstrating proper use of adverbs",
-      "difficulty": 4,
-      "tags": ["adverb", "grammar", "basic"],
-      "isVerified": true,
-      "createdAt": "2025-06-27T10:55:00"
-    },
-    {
-      "id": 2,
-      "phrase": "She sings really well",
-      "source": "The Voice (TV Show)",
-      "sourceType": "MOVIE",
-      "sourceTypeDisplay": "영화/드라마",
-      "sourceTypeEmoji": "🎬",
-      "context": "Judge complimenting a contestant's performance",
-      "difficulty": 5,
-      "tags": ["adverb", "performance", "compliment"],
-      "isVerified": true,
-      "createdAt": "2025-06-27T10:55:00"
-    }
-  ]
+   "id": 1,
+   "originSentence": "How Can I enjoy new features in this project?",
+   "correctedSentence": "How can I enjoy the new features in this project?",
+   "feedback": "야 이거 완전 기본기야! 대문자로 시작하는 건 문장 맨 처음이나 고유명사일 때만이고, 'the'는 특정한 것을 가리킬 때 꼭 써줘야 해. 'new features'라고 하면 어떤 기능들인지 명확하게 해주는 거야!",
+   "feedbackType": "GRAMMAR",
+   "score": 7,
+   "isFavorite": false,
+   "memo": null,
+   "createdAt": "2025-06-25T21:30:00",
+   "originTranslation": "이 프로젝트의 새로운 기능들을 어떻게 즐길 수 있을까요?",
+   "correctedTranslation": "이 프로젝트의 새로운 기능들을 어떻게 즐길 수 있을까요?",
+   "relatedExamples": [
+      {
+         "id": 1,
+         "phrase": "I speak English well",
+         "source": "Cambridge English Course",
+         "sourceType": "BOOK",
+         "sourceTypeDisplay": "문학/도서",
+         "sourceTypeEmoji": "📚",
+         "context": "Example sentence demonstrating proper use of adverbs",
+         "difficulty": 4,
+         "tags": ["adverb", "grammar", "basic"],
+         "isVerified": true,
+         "createdAt": "2025-06-27T10:55:00"
+      },
+      {
+         "id": 2,
+         "phrase": "She sings really well",
+         "source": "The Voice (TV Show)",
+         "sourceType": "MOVIE",
+         "sourceTypeDisplay": "영화/드라마",
+         "sourceTypeEmoji": "🎬",
+         "context": "Judge complimenting a contestant's performance",
+         "difficulty": 5,
+         "tags": ["adverb", "performance", "compliment"],
+         "isVerified": true,
+         "createdAt": "2025-06-27T10:55:00"
+      }
+   ]
 }
 ```
 
@@ -135,10 +137,10 @@ GET /corrections/statistics
 **응답 예시:**
 ```json
 {
-  "GRAMMAR": 15,
-  "SPELLING": 8,
-  "STYLE": 3,
-  "PUNCTUATION": 2
+   "GRAMMAR": 15,
+   "SPELLING": 8,
+   "STYLE": 3,
+   "PUNCTUATION": 2
 }
 ```
 
@@ -152,7 +154,7 @@ GET /corrections/average-score
 **응답 예시:**
 ```json
 {
-  "averageScore": 7.2
+   "averageScore": 7.2
 }
 ```
 
@@ -164,13 +166,13 @@ GET /corrections/dashboard/daily
 **응답 예시:**
 ```json
 {
-  "totalCorrections": 5,
-  "averageScore": 8.1,
-  "feedbackTypes": {
-    "GRAMMAR": 3,
-    "SPELLING": 1,
-    "STYLE": 1
-  }
+   "totalCorrections": 5,
+   "averageScore": 8.1,
+   "feedbackTypes": {
+      "GRAMMAR": 3,
+      "SPELLING": 1,
+      "STYLE": 1
+   }
 }
 ```
 
@@ -182,20 +184,20 @@ GET /corrections/dashboard/score-trend
 **응답 예시:**
 ```json
 {
-  "scoreTrend": [
-    {
-      "order": 1,
-      "score": 6,
-      "feedbackType": "GRAMMAR",
-      "createdAt": "2025-06-25T10:30:00"
-    },
-    {
-      "order": 2,
-      "score": 8,
-      "feedbackType": "SPELLING",
-      "createdAt": "2025-06-25T11:15:00"
-    }
-  ]
+   "scoreTrend": [
+      {
+         "order": 1,
+         "score": 6,
+         "feedbackType": "GRAMMAR",
+         "createdAt": "2025-06-25T10:30:00"
+      },
+      {
+         "order": 2,
+         "score": 8,
+         "feedbackType": "SPELLING",
+         "createdAt": "2025-06-25T11:15:00"
+      }
+   ]
 }
 ```
 
@@ -207,11 +209,11 @@ GET /corrections/dashboard/error-patterns
 **응답 예시:**
 ```json
 {
-  "errorPatterns": {
-    "GRAMMAR": ["i am student", "how can i", "she don't like"],
-    "SPELLING": ["recieve", "seperate", "occured"],
-    "STYLE": ["very very good", "really really nice"]
-  }
+   "errorPatterns": {
+      "GRAMMAR": ["i am student", "how can i", "she don't like"],
+      "SPELLING": ["recieve", "seperate", "occured"],
+      "STYLE": ["very very good", "really really nice"]
+   }
 }
 ```
 
@@ -237,6 +239,32 @@ Content-Type: application/json
 }
 ```
 
+#### 사용자별 잘한 표현 조회 (10점 만점 문장들)
+```http
+GET /corrections/users/{userId}/good-expressions
+```
+
+**설명:** 해당 사용자의 최근 3개월간 10점 만점을 받은 문장들을 조회합니다. 실수 통계에서는 제외되며, 잘한 표현으로 별도 관리됩니다.
+
+**응답 예시:**
+```json
+[
+   {
+      "id": 15,
+      "originSentence": "I have been studying English for two years.",
+      "correctedSentence": "I have been studying English for two years.",
+      "feedback": "완벽한 현재완료 진행형이야! 🎉 전혀 고칠 게 없는 완벽한 문장이네!",
+      "feedbackType": "GRAMMAR",
+      "score": 10,
+      "isFavorite": false,
+      "memo": null,
+      "createdAt": "2025-06-27T12:00:00",
+      "originTranslation": "나는 2년 동안 영어를 공부해왔습니다.",
+      "correctedTranslation": "나는 2년 동안 영어를 공부해왔습니다."
+   }
+]
+```
+
 ### 🎬 실제 사용 예시 API
 
 #### 키워드로 예시 검색
@@ -247,21 +275,21 @@ GET /examples/search?keyword=agreement
 **응답 예시:**
 ```json
 [
-  {
-    "id": 1,
-    "phrase": "I couldn't agree more",
-    "source": "Friends (TV Show)",
-    "sourceType": "MOVIE",
-    "sourceTypeDisplay": "영화/드라마",
-    "sourceTypeEmoji": "🎬",
-    "context": "Ross agrees enthusiastically with Rachel's opinion",
-    "url": "https://www.youtube.com/watch?v=example",
-    "timestamp": "05:23",
-    "difficulty": 6,
-    "tags": ["agreement", "enthusiasm", "conversation"],
-    "isVerified": true,
-    "createdAt": "2025-06-25T21:30:00"
-  }
+   {
+      "id": 1,
+      "phrase": "I couldn't agree more",
+      "source": "Friends (TV Show)",
+      "sourceType": "MOVIE",
+      "sourceTypeDisplay": "영화/드라마",
+      "sourceTypeEmoji": "🎬",
+      "context": "Ross agrees enthusiastically with Rachel's opinion",
+      "url": "https://www.youtube.com/watch?v=example",
+      "timestamp": "05:23",
+      "difficulty": 6,
+      "tags": ["agreement", "enthusiasm", "conversation"],
+      "isVerified": true,
+      "createdAt": "2025-06-25T21:30:00"
+   }
 ]
 ```
 
@@ -324,9 +352,9 @@ Content-Type: application/json
 **응답 예시:**
 ```json
 {
-  "question": "What's the difference between 'see', 'look', and 'watch'?",
-  "answer": "야 이거 진짜 좋은 질문이야! 한국인들이 개 많이 헷갈려하는 부분인데 ㅋㅋ 'See'는 그냥 자연스럽게 시야에 들어오는 거, 'look'은 의도적으로 시선을 확 돌리는 거, 'watch'는 움직이는 걸 쭉~ 지켜보는 거야. 예시로 'I saw a bird'(어? 새다!), 'Look at me'(나 좀 봐봐), 'Watch TV'(TV 정주행 ㄱㄱ) 이런 식으로 쓰는 거지!",
-  "createdAt": "2025-06-26T10:30:00"
+   "question": "What's the difference between 'see', 'look', and 'watch'?",
+   "answer": "야 이거 진짜 좋은 질문이야! 한국인들이 개 많이 헷갈려하는 부분인데 ㅋㅋ 'See'는 그냥 자연스럽게 시야에 들어오는 거, 'look'은 의도적으로 시선을 확 돌리는 거, 'watch'는 움직이는 걸 쭉~ 지켜보는 거야. 예시로 'I saw a bird'(어? 새다!), 'Look at me'(나 좀 봐봐), 'Watch TV'(TV 정주행 ㄱㄱ) 이런 식으로 쓰는 거지!",
+   "createdAt": "2025-06-26T10:30:00"
 }
 ```
 
@@ -346,38 +374,38 @@ GET /analytics/users/{userId}/weak-areas
 **응답 예시:**
 ```json
 {
-  "userId": 1,
-  "topWeakAreas": [
-    {
-      "type": "GRAMMAR_ARTICLES",
-      "typeDisplay": "관사 (a, an, the)",
-      "pattern": "관사 누락 또는 잘못된 사용",
-      "frequency": 8,
-      "frequencyDisplay": "8회 실수",
-      "severity": "HIGH",
-      "severityDisplay": "🟠 심각",
-      "severityColor": "#f97316",
-      "improvementRate": 0.3,
-      "improvementRateDisplay": "📈 개선 중",
-      "exampleMistakes": [
-        "I am student → I am a student",
-        "She is teacher → She is a teacher"
-      ],
-      "recommendation": "관사 사용법을 집중적으로 연습해보세요. 가산명사와 불가산명사 구분이 핵심이에요! ⚠️ 빠른 시일 내에 개선이 필요해요."
-    }
-  ],
-  "overallImprovementRate": 0.45,
-  "improvementRateDisplay": "📊 꾸준히 성장 (45%)",
-  "recommendedFocus": "GRAMMAR_ARTICLES",
-  "recommendedFocusDisplay": "관사 (a, an, the)",
-  "totalMistakes": 25,
-  "analysisDate": "2025-06-26T15:30:00",
-  "summary": {
-    "criticalAreas": 0,
-    "highPriorityAreas": 2,
-    "totalWeakAreas": 5,
-    "message": "⚠️ 우선적으로 개선할 영역이 2개 있어요."
-  }
+   "userId": 1,
+   "topWeakAreas": [
+      {
+         "type": "GRAMMAR_ARTICLES",
+         "typeDisplay": "관사 (a, an, the)",
+         "pattern": "관사 누락 또는 잘못된 사용",
+         "frequency": 8,
+         "frequencyDisplay": "8회 실수",
+         "severity": "HIGH",
+         "severityDisplay": "🟠 심각",
+         "severityColor": "#f97316",
+         "improvementRate": 0.3,
+         "improvementRateDisplay": "📈 개선 중",
+         "exampleMistakes": [
+            "I am student → I am a student",
+            "She is teacher → She is a teacher"
+         ],
+         "recommendation": "관사 사용법을 집중적으로 연습해보세요. 가산명사와 불가산명사 구분이 핵심이에요! ⚠️ 빠른 시일 내에 개선이 필요해요."
+      }
+   ],
+   "overallImprovementRate": 0.45,
+   "improvementRateDisplay": "📊 꾸준히 성장 (45%)",
+   "recommendedFocus": "GRAMMAR_ARTICLES",
+   "recommendedFocusDisplay": "관사 (a, an, the)",
+   "totalMistakes": 25,
+   "analysisDate": "2025-06-26T15:30:00",
+   "summary": {
+      "criticalAreas": 0,
+      "highPriorityAreas": 2,
+      "totalWeakAreas": 5,
+      "message": "⚠️ 우선적으로 개선할 영역이 2개 있어요."
+   }
 }
 ```
 
@@ -389,8 +417,8 @@ POST /analytics/users/{userId}/analyze
 **응답 예시:**
 ```json
 {
-  "message": "약점 분석이 완료되었습니다",
-  "userId": "1"
+   "message": "약점 분석이 완료되었습니다",
+   "userId": "1"
 }
 ```
 

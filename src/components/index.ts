@@ -11,3 +11,4 @@ export * from './ChatSidePanel';
 export * from './Navigation';
 export * from './LoadingState';
 export * from './Toast';
+export * from './GoodExpressions/GoodExpressions';
