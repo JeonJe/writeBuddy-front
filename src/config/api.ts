@@ -1,7 +1,7 @@
 // API 설정 및 상수
 export const API_CONFIG = {
   BASE_URL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:9091',
-  TIMEOUT: Number(process.env.REACT_APP_API_TIMEOUT) || 10000,
+  TIMEOUT: Number(process.env.REACT_APP_API_TIMEOUT) || 30000,
   ENDPOINTS: {
     CORRECTIONS: '/corrections',
     FAVORITES: '/corrections/favorites',

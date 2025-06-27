@@ -57,8 +57,8 @@ export interface RealExample {
   sourceTypeDisplay: string;
   sourceTypeEmoji: string;
   context: string;
-  url?: string;
-  timestamp?: string;
+  url?: string | null;
+  timestamp?: string | null;
   difficulty: number;
   tags: string[];
   isVerified: boolean;
@@ -74,7 +74,8 @@ export enum ExampleSourceType {
   INTERVIEW = 'INTERVIEW',
   SOCIAL = 'SOCIAL',
   SPEECH = 'SPEECH',
-  PODCAST = 'PODCAST'
+  PODCAST = 'PODCAST',
+  OTHER = 'OTHER'
 }
 
 export type DifficultyLevel = 'beginner' | 'intermediate' | 'upper-intermediate' | 'advanced';

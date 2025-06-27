@@ -22,11 +22,6 @@ export const RealExampleCard: React.FC<RealExampleCardProps> = ({
   const difficultyText = getDifficultyText(example.difficulty);
   const difficultyColor = getDifficultyColor(example.difficulty);
 
-  const handleExternalLink = () => {
-    if (example.url) {
-      window.open(example.url, '_blank', 'noopener,noreferrer');
-    }
-  };
 
   return (
     <div className="real-example-card">
@@ -71,26 +66,9 @@ export const RealExampleCard: React.FC<RealExampleCardProps> = ({
           </span>
         </div>
 
-        {(example.url || example.timestamp) && (
-          <div className="media-info">
-            {example.url && (
-              <button 
-                onClick={handleExternalLink}
-                className="external-link-btn"
-              >
-                🔗 원본 보기
-              </button>
-            )}
-            {example.timestamp && (
-              <span className="timestamp">
-                ⏰ {example.timestamp}
-              </span>
-            )}
-          </div>
-        )}
       </div>
 
-      {example.tags.length > 0 && (
+      {example.tags && Array.isArray(example.tags) && example.tags.length > 0 && (
         <div className="example-tags">
           {example.tags.map((tag, index) => (
             <button

@@ -7,7 +7,8 @@ export const useStatistics = () => {
   const [dailyStats, setDailyStats] = useState<DailyStatistics | null>(null);
   const [scoreTrend, setScoreTrend] = useState<ScoreTrend | null>(null);
   const [errorPatterns, setErrorPatterns] = useState<ErrorPatterns | null>(null);
-  const [averageScore, setAverageScore] = useState<number | null>(null);
+  const [feedbackStats, setFeedbackStats] = useState<Record<string, number> | null>(null);
+  const [averageScore, setAverageScore] = useState<{ averageScore: number } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -59,9 +60,19 @@ export const useStatistics = () => {
   const loadAverageScore = useCallback(async () => {
     try {
       const data = await correctionService.getAverageScore();
-      setAverageScore(data.averageScore);
+      setAverageScore(data);
     } catch (err) {
       console.error('평균 점수 로드 실패:', err);
+      throw err;
+    }
+  }, []);
+
+  const loadFeedbackStats = useCallback(async () => {
+    try {
+      const data = await correctionService.getStatistics();
+      setFeedbackStats(data);
+    } catch (err) {
+      console.error('피드백 통계 로드 실패:', err);
       throw err;
     }
   }, []);
@@ -76,6 +87,7 @@ export const useStatistics = () => {
         loadScoreTrend(),
         loadErrorPatterns(),
         loadAverageScore(),
+        loadFeedbackStats(),
       ]);
     } catch (err) {
       const errorMessage = handleApiError(err);
@@ -83,7 +95,7 @@ export const useStatistics = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [loadDailyStatistics, loadScoreTrend, loadErrorPatterns, loadAverageScore, handleApiError]);
+  }, [loadDailyStatistics, loadScoreTrend, loadErrorPatterns, loadAverageScore, loadFeedbackStats, handleApiError]);
 
   const clearError = useCallback(() => {
     setError(null);
@@ -98,9 +110,15 @@ export const useStatistics = () => {
     dailyStats,
     scoreTrend,
     errorPatterns,
+    feedbackStats,
     averageScore,
     isLoading,
     error,
+    fetchDailyStats: loadDailyStatistics,
+    fetchScoreTrend: loadScoreTrend,
+    fetchErrorPatterns: loadErrorPatterns,
+    fetchFeedbackStats: loadFeedbackStats,
+    fetchAverageScore: loadAverageScore,
     loadAllStatistics,
     clearError,
   };
