@@ -62,7 +62,7 @@ export const RealExampleCard: React.FC<RealExampleCardProps> = ({
             className="difficulty-text"
             style={{ color: difficultyColor }}
           >
-            {difficultyText} ({example.difficulty}/10)
+            {difficultyText}
           </span>
         </div>
 

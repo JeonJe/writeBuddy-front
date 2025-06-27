@@ -6,7 +6,8 @@ import {
   LoadingState,
   Toast
 } from '../components';
-import { useCorrections, useToast } from '../hooks';
+import { useCorrectionsContext } from '../contexts/CorrectionsContext';
+import { useToast, useCorrections } from '../hooks';
 import './HomePage.css';
 
 interface HomePageProps {
@@ -21,18 +22,19 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
     error,
     createCorrection,
     toggleFavorite,
-    getScoreLevel,
     clearError,
-  } = useCorrections();
+  } = useCorrectionsContext();
+
+  const { getScoreLevel } = useCorrections();
 
   const { toasts, showSuccess, removeToast } = useToast();
 
-  // 교정 완료 시 토스트 표시
-  useEffect(() => {
-    if (currentCorrection && !isLoading) {
+  const handleCreateCorrection = async (text: string) => {
+    await createCorrection(text, () => {
+      // 새로운 교정이 성공적으로 생성되었을 때만 토스트 표시
       showSuccess('훨씬 더 멋져졌어요! ✨');
-    }
-  }, [currentCorrection, isLoading, showSuccess]);
+    });
+  };
 
   return (
     <div className="home-page">
@@ -58,7 +60,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
         
         <div className="content-container">
           <CorrectionInput 
-            onCorrect={createCorrection}
+            onCorrect={handleCreateCorrection}
             isLoading={isLoading}
           />
           

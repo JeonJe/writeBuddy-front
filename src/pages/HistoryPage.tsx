@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CorrectionHistory } from '../components';
+import { useCorrectionsContext } from '../contexts/CorrectionsContext';
 import { useCorrections } from '../hooks';
 import './HistoryPage.css';
 
@@ -7,8 +8,17 @@ export const HistoryPage: React.FC = () => {
   const {
     corrections,
     toggleFavorite,
-    getScoreLevel,
-  } = useCorrections();
+    loadCorrections,
+  } = useCorrectionsContext();
+
+  const { getScoreLevel } = useCorrections();
+
+  useEffect(() => {
+    // 페이지 로드 시 교정 목록이 비어있으면 로드
+    if (corrections.length === 0) {
+      loadCorrections();
+    }
+  }, [corrections.length, loadCorrections]);
 
   return (
     <div className="history-page">
