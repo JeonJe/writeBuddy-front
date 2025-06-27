@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useCorrectionsContext } from '../../contexts/CorrectionsContext';
 import './CorrectionInput.css';
 
 interface CorrectionInputProps {
@@ -10,7 +11,7 @@ export const CorrectionInput: React.FC<CorrectionInputProps> = ({
   onCorrect, 
   isLoading 
 }) => {
-  const [inputText, setInputText] = useState('');
+  const { inputText, setInputText } = useCorrectionsContext();
 
   const inspirationalQuotes = [
     "The only way to do great work is to love what you do",
@@ -25,7 +26,7 @@ export const CorrectionInput: React.FC<CorrectionInputProps> = ({
   const handleSubmit = () => {
     if (inputText.trim()) {
       onCorrect(inputText);
-      setInputText('');
+      // 교정 후 입력 텍스트는 유지 (사용자가 다시 편집할 수 있도록)
     }
   };
 
