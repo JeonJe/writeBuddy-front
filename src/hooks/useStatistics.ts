@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { DailyStatistics, ScoreTrend, ErrorPatterns } from '../types';
+import { DailyStatistics, ScoreTrend, ErrorPatterns, Correction } from '../types';
 import { correctionService } from '../services';
 import { ApiError } from '../utils/apiError';
 
@@ -9,6 +9,7 @@ export const useStatistics = () => {
   const [errorPatterns, setErrorPatterns] = useState<ErrorPatterns | null>(null);
   const [feedbackStats, setFeedbackStats] = useState<Record<string, number> | null>(null);
   const [averageScore, setAverageScore] = useState<{ averageScore: number } | null>(null);
+  const [goodExpressions, setGoodExpressions] = useState<Correction[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,6 +78,16 @@ export const useStatistics = () => {
     }
   }, []);
 
+  const loadGoodExpressions = useCallback(async (userId: number) => {
+    try {
+      const data = await correctionService.getUserGoodExpressions(userId);
+      setGoodExpressions(data);
+    } catch (err) {
+      console.error('잘한 표현 로드 실패:', err);
+      throw err;
+    }
+  }, []);
+
   const loadAllStatistics = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -112,6 +123,7 @@ export const useStatistics = () => {
     errorPatterns,
     feedbackStats,
     averageScore,
+    goodExpressions,
     isLoading,
     error,
     fetchDailyStats: loadDailyStatistics,
@@ -119,6 +131,7 @@ export const useStatistics = () => {
     fetchErrorPatterns: loadErrorPatterns,
     fetchFeedbackStats: loadFeedbackStats,
     fetchAverageScore: loadAverageScore,
+    fetchGoodExpressions: loadGoodExpressions,
     loadAllStatistics,
     clearError,
   };

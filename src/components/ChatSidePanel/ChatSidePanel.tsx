@@ -79,7 +79,7 @@ export const ChatSidePanel: React.FC<ChatSidePanelProps> = ({ isOpen, onClose })
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && e.ctrlKey) {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       handleSubmit();
     }
@@ -192,7 +192,7 @@ export const ChatSidePanel: React.FC<ChatSidePanelProps> = ({ isOpen, onClose })
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="영어 질문을 입력하세요... (Ctrl+Enter로 전송)"
+              placeholder="영어 질문을 입력하세요... (Ctrl/Cmd+Enter로 전송)"
               disabled={isLoading}
               rows={1}
               className="chat-input"

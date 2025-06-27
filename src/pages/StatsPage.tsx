@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useStatistics } from '../hooks';
+import { GoodExpressions } from '../components';
 import './StatsPage.css';
 
 export const StatsPage: React.FC = () => {
@@ -10,13 +11,15 @@ export const StatsPage: React.FC = () => {
     errorPatterns,
     feedbackStats,
     averageScore,
+    goodExpressions,
     isLoading,
     error,
     fetchDailyStats,
     fetchScoreTrend,
     fetchErrorPatterns,
     fetchFeedbackStats,
-    fetchAverageScore
+    fetchAverageScore,
+    fetchGoodExpressions
   } = useStatistics();
 
   useEffect(() => {
@@ -26,6 +29,8 @@ export const StatsPage: React.FC = () => {
     fetchErrorPatterns();
     fetchFeedbackStats();
     fetchAverageScore();
+    // TODO: 사용자 ID가 있을 때 잘한 표현 로드
+    // fetchGoodExpressions(userId);
   }, [fetchDailyStats, fetchScoreTrend, fetchErrorPatterns, fetchFeedbackStats, fetchAverageScore]);
 
   const getFeedbackTypeIcon = (type: string) => {
@@ -223,6 +228,12 @@ export const StatsPage: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* 잘한 표현 섹션 */}
+        <GoodExpressions 
+          goodExpressions={goodExpressions}
+          isLoading={isLoading}
+        />
       </div>
     </div>
   );
