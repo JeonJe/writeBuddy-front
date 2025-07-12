@@ -746,6 +746,7 @@ logging.level.com.writebuddy=INFO
 - `400`: 잘못된 요청 (validation 실패)
 - `404`: 리소스 없음
 - `500`: 서버 오류
+- 
 
 ### 에러 응답 형식
 ```json
