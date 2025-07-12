@@ -96,57 +96,12 @@ src/
 └── utils/              # 유틸리티 함수
 ```
 
-## 🧪 테스트
-
-```bash
-# 테스트 실행
-npm test
-
-# 테스트 커버리지
-npm test -- --coverage
-```
-
 ## 🔨 빌드
 
 ```bash
 # 프로덕션 빌드
 npm run build
-
-# 빌드 결과물은 build/ 폴더에 생성됩니다
 ```
-
-## 🚀 배포
-
-### Vercel 배포
-이 프로젝트는 Vercel에 최적화되어 있습니다:
-
-1. **Vercel CLI 설치**:
-   ```bash
-   npm i -g vercel
-   ```
-
-2. **배포 실행**:
-   ```bash
-   vercel --prod
-   ```
-
-3. **환경 변수**: `vercel.json`에서 자동 설정됩니다
-   - Backend: `https://writebuddy.up.railway.app`
-
-### 수동 배포
-```bash
-# 빌드 후 정적 서버로 테스트
-npm run build
-npx serve -s build
-```
-
-## 🤝 기여하기
-
-1. 이 레포지토리를 포크합니다
-2. 새로운 브랜치를 생성합니다 (`git checkout -b feature/amazing-feature`)
-3. 변경사항을 커밋합니다 (`git commit -m '✨ Add amazing feature'`)
-4. 브랜치에 푸시합니다 (`git push origin feature/amazing-feature`)
-5. Pull Request를 생성합니다
 
 ## 📄 라이선스
 
