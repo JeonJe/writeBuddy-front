@@ -1,46 +1,161 @@
-# Getting Started with Create React App
+# ✍️ WriteBuddy
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**AI 기반 영어 문법 교정 서비스**
 
-## Available Scripts
+WriteBuddy는 OpenAI를 활용한 실시간 영어 문법 교정 웹 애플리케이션입니다. 영어 학습자들이 보다 정확하고 자연스러운 영어 문장을 작성할 수 있도록 도와줍니다.
 
-In the project directory, you can run:
+## 🌟 주요 기능
 
-### `npm start`
+### 📝 AI 문법 교정
+- **실시간 교정**: OpenAI 기반 즉시 문법 검사 및 교정
+- **품질 평가**: 1-10점 척도로 문장 품질 평가
+- **자동 번역**: 원문과 교정문의 한국어 번역 제공
+- **친근한 피드백**: 재미있고 이해하기 쉬운 설명
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 📊 학습 관리
+- **교정 내역**: 과거 교정 기록 저장 및 조회
+- **즐겨찾기**: 중요한 교정 내용 북마크
+- **학습 통계**: 개인별 학습 진도 및 성취도 추적
+- **좋은 표현**: 10점 만점 문장들을 별도 분류
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 💬 영어 도우미
+- **AI 채팅**: 영어 학습 관련 질문 및 상담
+- **실시간 대화**: 사이드 패널을 통한 편리한 접근
 
-### `npm test`
+## 🛠️ 기술 스택
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Frontend
+- **React 19** - 메인 프레임워크
+- **TypeScript** - 타입 안전성
+- **React Router** - SPA 라우팅
+- **CSS Modules** - 컴포넌트 스타일링
 
-### `npm run build`
+### Backend
+- **Spring Boot** - REST API 서버
+- **Kotlin** - 백엔드 언어
+- **JPA/Hibernate** - 데이터베이스 ORM
+- **H2 Database** - 개발용 인메모리 DB
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### AI Integration
+- **OpenAI API** - GPT 기반 문법 교정
+- **통합 JSON 응답** - 교정과 예시를 한 번에 생성
+- **최적화된 성능** - API 호출 50% 감소
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🚀 시작하기
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 사전 요구사항
+- Node.js 16+
+- npm 또는 yarn
 
-### `npm run eject`
+### 설치 및 실행
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+# 레포지토리 클론
+git clone https://github.com/your-username/writebuddy.git
+cd writebuddy
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# 의존성 설치
+npm install
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# 개발 서버 시작
+npm start
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+애플리케이션이 [http://localhost:3000](http://localhost:3000)에서 실행됩니다.
 
-## Learn More
+### 환경 설정
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+프로젝트 루트에 `.env` 파일을 생성하고 필요한 환경 변수를 설정하세요:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```env
+# 개발 환경
+REACT_APP_API_BASE_URL=http://localhost:9091
+REACT_APP_API_TIMEOUT=30000
+
+# 프로덕션 환경 (자동 설정됨)
+# REACT_APP_API_BASE_URL=https://writebuddy.up.railway.app
+```
+
+## 📱 주요 페이지
+
+- **홈페이지** (`/`) - 문법 교정 입력 및 결과
+- **교정 내역** (`/history`) - 과거 교정 기록 조회
+- **학습 통계** (`/stats`) - 개인 학습 데이터 분석
+
+## 🏗️ 프로젝트 구조
+
+```
+src/
+├── components/          # 재사용 가능한 UI 컴포넌트
+├── pages/              # 페이지 컴포넌트
+├── contexts/           # React Context (상태 관리)
+├── hooks/              # 커스텀 훅
+├── services/           # API 서비스
+├── types/              # TypeScript 타입 정의
+├── config/             # 설정 파일
+└── utils/              # 유틸리티 함수
+```
+
+## 🧪 테스트
+
+```bash
+# 테스트 실행
+npm test
+
+# 테스트 커버리지
+npm test -- --coverage
+```
+
+## 🔨 빌드
+
+```bash
+# 프로덕션 빌드
+npm run build
+
+# 빌드 결과물은 build/ 폴더에 생성됩니다
+```
+
+## 🚀 배포
+
+### Vercel 배포
+이 프로젝트는 Vercel에 최적화되어 있습니다:
+
+1. **Vercel CLI 설치**:
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **배포 실행**:
+   ```bash
+   vercel --prod
+   ```
+
+3. **환경 변수**: `vercel.json`에서 자동 설정됩니다
+   - Backend: `https://writebuddy.up.railway.app`
+
+### 수동 배포
+```bash
+# 빌드 후 정적 서버로 테스트
+npm run build
+npx serve -s build
+```
+
+## 🤝 기여하기
+
+1. 이 레포지토리를 포크합니다
+2. 새로운 브랜치를 생성합니다 (`git checkout -b feature/amazing-feature`)
+3. 변경사항을 커밋합니다 (`git commit -m '✨ Add amazing feature'`)
+4. 브랜치에 푸시합니다 (`git push origin feature/amazing-feature`)
+5. Pull Request를 생성합니다
+
+## 📄 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 배포됩니다.
+
+## 📞 문의
+
+프로젝트에 대한 질문이나 제안사항이 있으시면 이슈를 생성해 주세요.
+
+---
+
+**Happy Writing with WriteBuddy! ✨**
