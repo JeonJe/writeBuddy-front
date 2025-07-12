@@ -1,0 +1,255 @@
+.good-expressions {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.good-expressions-header {
+  margin-bottom: 20px;
+}
+
+.good-expressions-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.good-expressions-header p {
+  color: #6b7280;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+/* 로딩 상태 */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  color: #6b7280;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e7eb;
+  border-top: 3px solid #10b981;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 빈 상태 */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.empty-state h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 8px 0;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+/* 잘한 표현 목록 */
+.good-expressions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.good-expression-card {
+  background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%);
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.good-expression-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #10b981, #34d399, #6ee7b7);
+}
+
+.expression-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.perfect-score {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.score-badge {
+  background: #10b981;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.perfect-icon {
+  font-size: 1.25rem;
+}
+
+.expression-date {
+  color: #92400e;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.expression-content {
+  margin-bottom: 16px;
+}
+
+.original-sentence {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.sentence-label {
+  display: inline-block;
+  background: #374151;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.sentence-text {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.translation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.translation-icon {
+  font-size: 1rem;
+}
+
+.translation-text {
+  color: #4b5563;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.feedback-section {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.feedback-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #10b981;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.feedback-icon {
+  font-size: 0.875rem;
+}
+
+.feedback-text {
+  color: #374151;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.expression-memo {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  padding: 12px 16px;
+  border-left: 4px solid #10b981;
+}
+
+.memo-icon {
+  font-size: 1rem;
+  margin-top: 2px;
+}
+
+.memo-text {
+  color: #374151;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .good-expressions {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .good-expression-card {
+    padding: 16px;
+  }
+  
+  .expression-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .sentence-text {
+    font-size: 1rem;
+  }
+}
