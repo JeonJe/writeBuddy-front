@@ -73,7 +73,7 @@ REACT_APP_API_BASE_URL=http://localhost:9091
 REACT_APP_API_TIMEOUT=30000
 
 # 프로덕션 환경 (자동 설정됨)
-# REACT_APP_API_BASE_URL=https://writebuddy.up.railway.app
+# REACT_APP_API_BASE_URL=https://writebuddy-server-prod.up.railway.app
 ```
 
 ## 📱 주요 페이지
