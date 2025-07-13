@@ -10,6 +10,7 @@ interface CorrectionsContextType {
   currentCorrection: Correction | null;
   inputText: string;
   isLoading: boolean;
+  isLoadingHistory: boolean;
   error: string | null;
 
   // 액션
@@ -33,6 +34,7 @@ export const CorrectionsProvider: React.FC<CorrectionsProviderProps> = ({ childr
   const [currentCorrection, setCurrentCorrection] = useState<Correction | null>(null);
   const [inputText, setInputText] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingHistory, setIsLoadingHistory] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleApiError = useCallback((error: unknown) => {
@@ -66,7 +68,7 @@ export const CorrectionsProvider: React.FC<CorrectionsProviderProps> = ({ childr
   }, [handleApiError]);
 
   const loadCorrections = useCallback(async () => {
-    setIsLoading(true);
+    setIsLoadingHistory(true);
     setError(null);
     
     try {
@@ -75,7 +77,7 @@ export const CorrectionsProvider: React.FC<CorrectionsProviderProps> = ({ childr
     } catch (err) {
       handleApiError(err);
     } finally {
-      setIsLoading(false);
+      setIsLoadingHistory(false);
     }
   }, [handleApiError]);
 
@@ -141,6 +143,7 @@ export const CorrectionsProvider: React.FC<CorrectionsProviderProps> = ({ childr
     currentCorrection,
     inputText,
     isLoading,
+    isLoadingHistory,
     error,
 
     // 액션
