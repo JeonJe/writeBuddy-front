@@ -88,10 +88,8 @@ export const useStatistics = () => {
     }
   }, []);
 
-  const loadAllStatistics = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-
+  // 🔄 기존 개별 API 로더 (Fallback)
+  const loadLegacyStatistics = useCallback(async () => {
     try {
       await Promise.all([
         loadDailyStatistics(),
@@ -100,19 +98,48 @@ export const useStatistics = () => {
         loadAverageScore(),
         loadFeedbackStats(),
       ]);
+      console.log('🔄 기존 개별 API 사용 완료');
     } catch (err) {
       const errorMessage = handleApiError(err);
       setError(errorMessage);
+    }
+  }, [loadDailyStatistics, loadScoreTrend, loadErrorPatterns, loadAverageScore, loadFeedbackStats, handleApiError]);
+
+  // 🆕 통합 통계 API 로더 (권장)
+  const loadUnifiedStatistics = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const unifiedData = await correctionService.getUnifiedStatistics();
+      
+      // 기존 state로 데이터 매핑 (로그인 없는 버전)
+      setDailyStats(unifiedData.dashboardData.dailyStatistics);
+      setScoreTrend({ scoreTrend: unifiedData.dashboardData.scoreTrend });
+      setErrorPatterns({ errorPatterns: unifiedData.dashboardData.errorPatterns });
+      setFeedbackStats(unifiedData.correctionStatistics.feedbackTypeStatistics);
+      setAverageScore({ averageScore: unifiedData.correctionStatistics.averageScore });
+      
+      console.log('🆕 통합 통계 API 성공 - 성능 최적화 완료');
+    } catch (err) {
+      console.warn('🔄 통합 API 실패, 기존 방식으로 fallback');
+      // Fallback: 기존 개별 API 호출
+      return await loadLegacyStatistics();
     } finally {
       setIsLoading(false);
     }
-  }, [loadDailyStatistics, loadScoreTrend, loadErrorPatterns, loadAverageScore, loadFeedbackStats, handleApiError]);
+  }, [loadLegacyStatistics]);
+
+  // 🆕 메인 로더 (Unified API 우선)
+  const loadAllStatistics = useCallback(async () => {
+    await loadUnifiedStatistics();
+  }, [loadUnifiedStatistics]);
 
   const clearError = useCallback(() => {
     setError(null);
   }, []);
 
-  // 컴포넌트 마운트 시 데이터 로드
+  // 컴포넌트 마운트 시 데이터 로드 (통합 API 우선)
   useEffect(() => {
     loadAllStatistics();
   }, [loadAllStatistics]);

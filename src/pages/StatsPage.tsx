@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useStatistics } from '../hooks';
 import { GoodExpressions } from '../components';
 import './StatsPage.css';
 
 export const StatsPage: React.FC = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState('all');
   const {
     dailyStats,
     scoreTrend,
@@ -14,24 +13,13 @@ export const StatsPage: React.FC = () => {
     goodExpressions,
     isLoading,
     error,
-    fetchDailyStats,
-    fetchScoreTrend,
-    fetchErrorPatterns,
-    fetchFeedbackStats,
-    fetchAverageScore,
-    fetchGoodExpressions
+    loadAllStatistics
   } = useStatistics();
 
   useEffect(() => {
-    // 페이지 로드 시 모든 통계 데이터 가져오기
-    fetchDailyStats();
-    fetchScoreTrend();
-    fetchErrorPatterns();
-    fetchFeedbackStats();
-    fetchAverageScore();
-    // TODO: 사용자 ID가 있을 때 잘한 표현 로드
-    // fetchGoodExpressions(userId);
-  }, [fetchDailyStats, fetchScoreTrend, fetchErrorPatterns, fetchFeedbackStats, fetchAverageScore]);
+    // 🆕 통합 API 사용 - 1번의 API 호출로 모든 통계 데이터 로드
+    loadAllStatistics();
+  }, [loadAllStatistics]);
 
   const getFeedbackTypeIcon = (type: string) => {
     switch (type) {
@@ -75,8 +63,8 @@ export const StatsPage: React.FC = () => {
     <div className="stats-page">
       <div className="stats-container">
         <div className="stats-header">
-          <h1>📊 나의 영어 학습 통계</h1>
-          <p>지금까지의 학습 성과를 한눈에 확인해보세요</p>
+          <h1>📊 영어 교정 통계</h1>
+          <p>AI 교정 서비스 이용 현황을 확인해보세요</p>
         </div>
 
         {error && (
@@ -101,28 +89,30 @@ export const StatsPage: React.FC = () => {
             </div>
           </div>
 
-          {/* 오늘의 통계 */}
-          <div className="stat-card">
-            <div className="card-header">
-              <h3>📅 오늘의 학습</h3>
-            </div>
-            <div className="today-stats">
-              <div className="stat-item">
-                <span className="stat-icon">✏️</span>
-                <div>
-                  <div className="stat-number">{dailyStats?.totalCorrections || 0}</div>
-                  <div className="stat-label">교정 횟수</div>
+          {/* 오늘의 통계 - 데이터가 있을 때만 표시 */}
+          {(dailyStats?.totalCorrections || 0) > 0 && (
+            <div className="stat-card">
+              <div className="card-header">
+                <h3>📅 오늘의 교정 현황</h3>
+              </div>
+              <div className="today-stats">
+                <div className="stat-item">
+                  <span className="stat-icon">✏️</span>
+                  <div>
+                    <div className="stat-number">{dailyStats?.totalCorrections || 0}</div>
+                    <div className="stat-label">총 교정 횟수</div>
+                  </div>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-icon">⭐</span>
+                  <div>
+                    <div className="stat-number">{dailyStats?.averageScore?.toFixed(1) || '0.0'}</div>
+                    <div className="stat-label">평균 점수</div>
+                  </div>
                 </div>
               </div>
-              <div className="stat-item">
-                <span className="stat-icon">⭐</span>
-                <div>
-                  <div className="stat-number">{dailyStats?.averageScore?.toFixed(1) || '0.0'}</div>
-                  <div className="stat-label">평균 점수</div>
-                </div>
-              </div>
             </div>
-          </div>
+          )}
 
           {/* 피드백 타입 분포 */}
           <div className="stat-card feedback-card">
@@ -155,7 +145,7 @@ export const StatsPage: React.FC = () => {
               <h3>📈 점수 변화 추이</h3>
             </div>
             <div className="score-trend">
-              {scoreTrend?.scoreTrend?.slice(-10).map((item, index) => (
+              {(scoreTrend?.scoreTrend?.slice(-10).map((item, index) => (
                 <div key={index} className="trend-item">
                   <div 
                     className="trend-bar"
@@ -166,7 +156,7 @@ export const StatsPage: React.FC = () => {
                   ></div>
                   <div className="trend-score">{item.score}</div>
                 </div>
-              )) || (
+              ))) || (
                 <div className="empty-trend">
                   <p>📊 아직 충분한 데이터가 없어요</p>
                   <p>더 많은 교정을 받아보세요!</p>
@@ -181,7 +171,7 @@ export const StatsPage: React.FC = () => {
               <h3>💡 자주 하는 실수</h3>
             </div>
             <div className="error-patterns">
-              {errorPatterns?.errorPatterns && Object.entries(errorPatterns.errorPatterns).map(([type, patterns]) => (
+              {(errorPatterns?.errorPatterns && Object.entries(errorPatterns.errorPatterns).map(([type, patterns]) => (
                 <div key={type} className="error-section">
                   <h4>{getFeedbackTypeIcon(type)} {type}</h4>
                   <div className="error-list">
@@ -192,7 +182,7 @@ export const StatsPage: React.FC = () => {
                     ))}
                   </div>
                 </div>
-              )) || (
+              ))) || (
                 <div className="empty-errors">
                   <p>🎉 분석할 실수 패턴이 충분하지 않아요</p>
                   <p>더 많이 연습해보세요!</p>
@@ -201,39 +191,43 @@ export const StatsPage: React.FC = () => {
             </div>
           </div>
 
-          {/* 학습 성취도 */}
-          <div className="stat-card achievement-card">
-            <div className="card-header">
-              <h3>🏆 학습 성취도</h3>
-            </div>
-            <div className="achievements">
-              <div className="achievement-item">
-                <div className="achievement-icon">🔥</div>
-                <div className="achievement-info">
-                  <div className="achievement-title">교정 마스터</div>
-                  <div className="achievement-desc">
-                    {(dailyStats?.totalCorrections || 0) >= 10 ? '완료!' : `${10 - (dailyStats?.totalCorrections || 0)}개 더 필요`}
+          {/* 학습 현황 - 데이터가 있을 때만 표시 */}
+          {(dailyStats?.totalCorrections || 0) > 0 && (
+            <div className="stat-card achievement-card">
+              <div className="card-header">
+                <h3>📚 학습 현황</h3>
+              </div>
+              <div className="achievements">
+                <div className="achievement-item">
+                  <div className="achievement-icon">📝</div>
+                  <div className="achievement-info">
+                    <div className="achievement-title">총 교정 횟수</div>
+                    <div className="achievement-desc">
+                      오늘 {dailyStats?.totalCorrections || 0}번 교정
+                    </div>
+                  </div>
+                </div>
+                <div className="achievement-item">
+                  <div className="achievement-icon">⭐</div>
+                  <div className="achievement-info">
+                    <div className="achievement-title">교정 품질</div>
+                    <div className="achievement-desc">
+                      {(averageScore?.averageScore || 0) >= 8 ? '우수함' : (averageScore?.averageScore || 0) >= 6 ? '양호함' : '연습 필요'}
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="achievement-item">
-                <div className="achievement-icon">⭐</div>
-                <div className="achievement-info">
-                  <div className="achievement-title">완벽주의자</div>
-                  <div className="achievement-desc">
-                    {(averageScore?.averageScore || 0) >= 8 ? '완료!' : '평균 8점 이상 달성하기'}
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
+          )}
         </div>
 
-        {/* 잘한 표현 섹션 */}
-        <GoodExpressions 
-          goodExpressions={goodExpressions}
-          isLoading={isLoading}
-        />
+        {/* 잘한 표현 섹션 - 데이터가 있을 때만 표시 */}
+        {goodExpressions.length > 0 && (
+          <GoodExpressions 
+            goodExpressions={goodExpressions}
+            isLoading={isLoading}
+          />
+        )}
       </div>
     </div>
   );
