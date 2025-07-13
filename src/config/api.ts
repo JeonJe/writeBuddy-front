@@ -5,14 +5,7 @@ export const API_CONFIG = {
   ENDPOINTS: {
     CORRECTIONS: '/corrections',
     FAVORITES: '/corrections/favorites',
-    // 🆕 통합 통계 API (메인)
-    UNIFIED_STATISTICS: '/statistics',
-    // 🔄 기존 API (Deprecated - 하위 호환성)
-    STATISTICS: '/corrections/statistics',
-    AVERAGE_SCORE: '/corrections/average-score',
-    DAILY_DASHBOARD: '/corrections/dashboard/daily',
-    SCORE_TREND: '/corrections/dashboard/score-trend',
-    ERROR_PATTERNS: '/corrections/dashboard/error-patterns',
+    STATISTICS: '/statistics',
     GOOD_EXPRESSIONS: '/corrections/users/{userId}/good-expressions',
   },
 } as const;

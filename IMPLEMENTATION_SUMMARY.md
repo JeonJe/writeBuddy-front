@@ -140,13 +140,7 @@ background: linear-gradient(135deg,
 - `POST /corrections` - 교정 요청
 - `PUT /corrections/{id}/favorite` - 즐겨찾기 토글
 - `GET /corrections` - 교정 목록 조회
-
-### 준비된 API 서비스 (백엔드 구현 대기)
-- `GET /corrections/statistics` - 피드백 타입 통계
-- `GET /corrections/average-score` - 평균 점수
-- `GET /corrections/dashboard/daily` - 일별 통계
-- `GET /corrections/dashboard/score-trend` - 점수 추이
-- `GET /corrections/dashboard/error-patterns` - 오류 패턴
+- `GET /statistics` - 통합 통계 API (모든 통계 데이터를 1번에 조회)
 
 ## 🎬 실제 사용 예시 시스템
 

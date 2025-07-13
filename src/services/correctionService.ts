@@ -1,4 +1,4 @@
-import { Correction, CreateCorrectionRequest, ScoreTrend, ErrorPatterns, DailyStatistics, UnifiedStatistics } from '../types';
+import { Correction, CreateCorrectionRequest, UnifiedStatistics } from '../types';
 import { apiClient } from '../utils/apiClient';
 import { API_CONFIG } from '../config/api';
 
@@ -41,40 +41,6 @@ export const correctionService = {
     return apiClient.get<Correction[]>(API_CONFIG.ENDPOINTS.FAVORITES);
   },
 
-  /**
-   * 교정 통계를 조회합니다.
-   */
-  async getStatistics(): Promise<Record<string, number>> {
-    return apiClient.get<Record<string, number>>(API_CONFIG.ENDPOINTS.STATISTICS);
-  },
-
-  /**
-   * 평균 점수를 조회합니다.
-   */
-  async getAverageScore(): Promise<{ averageScore: number }> {
-    return apiClient.get<{ averageScore: number }>(API_CONFIG.ENDPOINTS.AVERAGE_SCORE);
-  },
-
-  /**
-   * 일별 대시보드 데이터를 조회합니다.
-   */
-  async getDailyDashboard(): Promise<DailyStatistics> {
-    return apiClient.get(API_CONFIG.ENDPOINTS.DAILY_DASHBOARD);
-  },
-
-  /**
-   * 점수 변화 추이를 조회합니다 (최근 20개).
-   */
-  async getScoreTrend(): Promise<ScoreTrend> {
-    return apiClient.get(API_CONFIG.ENDPOINTS.SCORE_TREND);
-  },
-
-  /**
-   * 오류 패턴 분석 데이터를 조회합니다.
-   */
-  async getErrorPatterns(): Promise<ErrorPatterns> {
-    return apiClient.get(API_CONFIG.ENDPOINTS.ERROR_PATTERNS);
-  },
 
   /**
    * 사용자별 잘한 표현(10점 만점 문장들)을 조회합니다.
@@ -85,10 +51,9 @@ export const correctionService = {
   },
 
   /**
-   * 🆕 통합 통계 API - 모든 통계 데이터를 1번의 API 호출로 조회합니다.
-   * (기존 7-8개 개별 API 대체)
+   * 통계 API - 모든 통계 데이터를 1번의 API 호출로 조회합니다.
    */
   async getUnifiedStatistics(): Promise<UnifiedStatistics> {
-    return apiClient.get<UnifiedStatistics>(API_CONFIG.ENDPOINTS.UNIFIED_STATISTICS);
+    return apiClient.get<UnifiedStatistics>(API_CONFIG.ENDPOINTS.STATISTICS);
   },
 };

@@ -28,55 +28,6 @@ export const useStatistics = () => {
     return '통계 데이터를 불러오는 중 오류가 발생했습니다.';
   }, []);
 
-  const loadDailyStatistics = useCallback(async () => {
-    try {
-      const data = await correctionService.getDailyDashboard();
-      setDailyStats(data);
-    } catch (err) {
-      console.error('일별 통계 로드 실패:', err);
-      throw err;
-    }
-  }, []);
-
-  const loadScoreTrend = useCallback(async () => {
-    try {
-      const data = await correctionService.getScoreTrend();
-      setScoreTrend(data);
-    } catch (err) {
-      console.error('점수 추이 로드 실패:', err);
-      throw err;
-    }
-  }, []);
-
-  const loadErrorPatterns = useCallback(async () => {
-    try {
-      const data = await correctionService.getErrorPatterns();
-      setErrorPatterns(data);
-    } catch (err) {
-      console.error('오류 패턴 로드 실패:', err);
-      throw err;
-    }
-  }, []);
-
-  const loadAverageScore = useCallback(async () => {
-    try {
-      const data = await correctionService.getAverageScore();
-      setAverageScore(data);
-    } catch (err) {
-      console.error('평균 점수 로드 실패:', err);
-      throw err;
-    }
-  }, []);
-
-  const loadFeedbackStats = useCallback(async () => {
-    try {
-      const data = await correctionService.getStatistics();
-      setFeedbackStats(data);
-    } catch (err) {
-      console.error('피드백 통계 로드 실패:', err);
-      throw err;
-    }
-  }, []);
 
   const loadGoodExpressions = useCallback(async (userId: number) => {
     try {
@@ -88,24 +39,7 @@ export const useStatistics = () => {
     }
   }, []);
 
-  // 🔄 기존 개별 API 로더 (Fallback)
-  const loadLegacyStatistics = useCallback(async () => {
-    try {
-      await Promise.all([
-        loadDailyStatistics(),
-        loadScoreTrend(),
-        loadErrorPatterns(),
-        loadAverageScore(),
-        loadFeedbackStats(),
-      ]);
-      console.log('🔄 기존 개별 API 사용 완료');
-    } catch (err) {
-      const errorMessage = handleApiError(err);
-      setError(errorMessage);
-    }
-  }, [loadDailyStatistics, loadScoreTrend, loadErrorPatterns, loadAverageScore, loadFeedbackStats, handleApiError]);
-
-  // 🆕 통합 통계 API 로더 (권장)
+  // 🆕 통합 통계 API 로더 (단일 API 사용)
   const loadUnifiedStatistics = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -120,17 +54,17 @@ export const useStatistics = () => {
       setFeedbackStats(unifiedData.correctionStatistics.feedbackTypeStatistics);
       setAverageScore({ averageScore: unifiedData.correctionStatistics.averageScore });
       
-      console.log('🆕 통합 통계 API 성공 - 성능 최적화 완료');
+      console.log('✅ 통계 API 호출 성공 - 단일 API로 모든 데이터 로드 완료');
     } catch (err) {
-      console.warn('🔄 통합 API 실패, 기존 방식으로 fallback');
-      // Fallback: 기존 개별 API 호출
-      return await loadLegacyStatistics();
+      const errorMessage = handleApiError(err);
+      setError(errorMessage);
+      console.error('통계 API 호출 실패:', err);
     } finally {
       setIsLoading(false);
     }
-  }, [loadLegacyStatistics]);
+  }, [handleApiError]);
 
-  // 🆕 메인 로더 (Unified API 우선)
+  // 🆕 메인 로더 (통합 API 우선)
   const loadAllStatistics = useCallback(async () => {
     await loadUnifiedStatistics();
   }, [loadUnifiedStatistics]);
