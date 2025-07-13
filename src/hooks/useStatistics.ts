@@ -153,13 +153,8 @@ export const useStatistics = () => {
     goodExpressions,
     isLoading,
     error,
-    fetchDailyStats: loadDailyStatistics,
-    fetchScoreTrend: loadScoreTrend,
-    fetchErrorPatterns: loadErrorPatterns,
-    fetchFeedbackStats: loadFeedbackStats,
-    fetchAverageScore: loadAverageScore,
-    fetchGoodExpressions: loadGoodExpressions,
     loadAllStatistics,
+    fetchGoodExpressions: loadGoodExpressions,
     clearError,
   };
 };
