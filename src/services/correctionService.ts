@@ -14,7 +14,7 @@ export const correctionService = {
    * 모든 교정 목록을 조회합니다.
    */
   async getAllCorrections(): Promise<Correction[]> {
-    return apiClient.get<Correction[]>(API_CONFIG.ENDPOINTS.CORRECTIONS);
+    return apiClient.get<Correction[]>(`${API_CONFIG.ENDPOINTS.CORRECTIONS}?lightweight=true`);
   },
 
   /**
