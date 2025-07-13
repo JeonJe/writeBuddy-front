@@ -1,4 +1,4 @@
-import { Correction, CreateCorrectionRequest, ScoreTrend, ErrorPatterns, DailyStatistics } from '../types';
+import { Correction, CreateCorrectionRequest, ScoreTrend, ErrorPatterns, DailyStatistics, UnifiedStatistics } from '../types';
 import { apiClient } from '../utils/apiClient';
 import { API_CONFIG } from '../config/api';
 
@@ -82,5 +82,13 @@ export const correctionService = {
   async getUserGoodExpressions(userId: number): Promise<Correction[]> {
     const endpoint = API_CONFIG.ENDPOINTS.GOOD_EXPRESSIONS.replace('{userId}', userId.toString());
     return apiClient.get<Correction[]>(endpoint);
+  },
+
+  /**
+   * 🆕 통합 통계 API - 모든 통계 데이터를 1번의 API 호출로 조회합니다.
+   * (기존 7-8개 개별 API 대체)
+   */
+  async getUnifiedStatistics(): Promise<UnifiedStatistics> {
+    return apiClient.get<UnifiedStatistics>(API_CONFIG.ENDPOINTS.UNIFIED_STATISTICS);
   },
 };

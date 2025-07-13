@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { 
   CorrectionInput, 
   CorrectionResult, 
@@ -15,6 +15,7 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
   
   const {
     currentCorrection,
@@ -23,6 +24,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
     createCorrection,
     toggleFavorite,
     clearError,
+    setInputText,
   } = useCorrectionsContext();
 
   const { getScoreLevel } = useCorrections();
@@ -36,15 +38,19 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
     });
   };
 
+  const handleExampleClick = (text: string) => {
+    setInputText(text);
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className="home-page">
       <FloatingChatButton onClick={onOpenChat} />
       
       <main className="main-content">
-        <div className="hero-section">
-          <h1>Error 404: Grammar Not Found  👨‍💻</h1>
-        </div>
-
         {error && (
           <div className="error-message">
             {error}
@@ -58,26 +64,97 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
           </div>
         )}
         
-        <div className="content-container">
-          <CorrectionInput 
-            onCorrect={handleCreateCorrection}
-            isLoading={isLoading}
-          />
-          
-          {isLoading && (
-            <LoadingState message="✨ 마법을 부리는 중..." />
-          )}
-          
-          {currentCorrection && !isLoading && (
-            <CorrectionResult
-              correction={currentCorrection}
-              onToggleFavorite={toggleFavorite}
-              getScoreLevel={getScoreLevel}
-              onTagClick={(tag) => console.log('Tag clicked:', tag)}
+        <div className="main-container">
+          <div className="main-editor">
+            <CorrectionInput 
+              onCorrect={handleCreateCorrection}
+              isLoading={isLoading}
             />
-          )}
+            
+            {isLoading && (
+              <LoadingState message="교정 중..." />
+            )}
+            
+            {currentCorrection && !isLoading && (
+              <CorrectionResult
+                correction={currentCorrection}
+                onToggleFavorite={toggleFavorite}
+                getScoreLevel={getScoreLevel}
+                onTagClick={(tag) => console.log('Tag clicked:', tag)}
+              />
+            )}
+          </div>
         </div>
       </main>
+        
+      {/* 사이드바 토글 버튼 */}
+      <button 
+        className="sidebar-toggle" 
+        onClick={toggleSidebar}
+        aria-label="도움말 패널 열기"
+      >
+        <div className="toggle-handle">
+          <div className="handle-grip"></div>
+          <div className="handle-grip"></div>
+          <div className="handle-grip"></div>
+        </div>
+      </button>
+      
+      {/* 사이드바 */}
+      <div className={`sidebar ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+        <div className="sidebar-section">
+          <div className="quick-action">
+            <span className="action-icon">📝</span>
+            <div className="action-content">
+              <h3>빠른 교정</h3>
+              <p>AI가 즉시 영어를 개선해드립니다</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="sidebar-section">
+          <div className="quick-action" onClick={() => window.location.href = '/stats'}>
+            <span className="action-icon">📊</span>
+            <div className="action-content">
+              <h3>내 학습 통계</h3>
+              <p>성장 과정을 확인하세요</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="sidebar-section">
+          <div className="quick-action">
+            <span className="action-icon">💡</span>
+            <div className="action-content">
+              <h3>오늘의 팁</h3>
+              <p>자연스러운 표현을 연습해보세요</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="sidebar-section examples-section">
+          <h4>예시 문장</h4>
+          <div className="example-quotes">
+            <button className="example-quote" onClick={() => handleExampleClick("The only way to do great work is to love what you do")}>
+              "The only way to do great work is to love what you do"
+            </button>
+            <button className="example-quote" onClick={() => handleExampleClick("Innovation distinguishes between a leader and a follower")}>
+              "Innovation distinguishes between a leader and a follower"
+            </button>
+            <button className="example-quote" onClick={() => handleExampleClick("Stay hungry, stay foolish")}>
+              "Stay hungry, stay foolish"
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      {/* 오버레이 */}
+      {isSidebarOpen && (
+        <div 
+          className="sidebar-overlay" 
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
 
       {/* 토스트 알림 */}
       {toasts.map((toast) => (

@@ -45,6 +45,20 @@ export interface StatisticsOverview {
   feedbackTypeDistribution: Record<string, number>;
 }
 
+// 🆕 통합 통계 API 응답 타입 (로그인 없는 버전)
+export interface UnifiedStatistics {
+  correctionStatistics: {
+    feedbackTypeStatistics: Record<string, number>;
+    averageScore: number;
+  };
+  dashboardData: {
+    dailyStatistics: DailyStatistics;
+    scoreTrend: ScoreTrendItem[];
+    errorPatterns: Record<string, string[]>;
+  };
+  generatedAt: string;
+}
+
 export type FeedbackType = 'GRAMMAR' | 'SPELLING' | 'STYLE' | 'PUNCTUATION' | 'SYSTEM';
 
 export type ScoreLevel = 'excellent' | 'good' | 'needs-work' | 'none';
