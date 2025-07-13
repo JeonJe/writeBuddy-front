@@ -34,6 +34,57 @@
   font-weight: 500;
 }
 
+.stats-controls {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.refresh-button {
+  padding: 12px 24px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.refresh-button:hover:not(:disabled) {
+  background: #1565c0;
+  transform: translateY(-1px);
+}
+
+.refresh-button:disabled {
+  background: #9e9e9e;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.empty-stats {
+  text-align: center;
+  padding: 80px 20px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f3f4;
+}
+
+.empty-stats-content h3 {
+  margin: 0 0 16px 0;
+  color: #191f28;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.empty-stats-content p {
+  margin: 0;
+  color: #4e5968;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
 .stats-loading {
   text-align: center;
   padding: 80px 20px;

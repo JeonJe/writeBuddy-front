@@ -14,12 +14,6 @@ export const HistoryPage: React.FC = () => {
 
   const { getScoreLevel } = useCorrections();
 
-  useEffect(() => {
-    // 페이지 로드 시 교정 목록이 비어있으면 로드
-    if (corrections.length === 0) {
-      loadCorrections();
-    }
-  }, [corrections.length, loadCorrections]);
 
   return (
     <div className="history-page">
@@ -28,16 +22,26 @@ export const HistoryPage: React.FC = () => {
           <h1>교정 기록</h1>
           <p>지금까지의 영어 학습 기록을 확인해보세요</p>
         </div>
+
+        <div className="history-controls">
+          <button 
+            className="load-history-button"
+            onClick={loadCorrections}
+            disabled={isLoadingHistory}
+          >
+            {isLoadingHistory ? '📝 로딩 중...' : '📝 교정 기록 불러오기'}
+          </button>
+        </div>
         
         {isLoadingHistory ? (
           <div className="loading-state">
             <div className="loading-spinner"></div>
-            <p>교정 기록을 불러오는 중...</p>
+            <p>📝 교정 기록을 불러오는 중입니다...</p>
           </div>
         ) : corrections.length === 0 ? (
           <div className="empty-state">
-            <p>아직 교정 기록이 없습니다.</p>
-            <p>영어 문장을 입력하고 교정을 받아보세요!</p>
+            <h3>📝 교정 기록을 불러와주세요</h3>
+            <p>위의 "교정 기록 불러오기" 버튼을 클릭하여<br/>지금까지의 영어 학습 기록을 확인해보세요!</p>
           </div>
         ) : (
           <CorrectionHistory

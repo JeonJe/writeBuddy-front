@@ -16,10 +16,6 @@ export const StatsPage: React.FC = () => {
     loadAllStatistics
   } = useStatistics();
 
-  useEffect(() => {
-    // 🆕 통합 API 사용 - 1번의 API 호출로 모든 통계 데이터 로드
-    loadAllStatistics();
-  }, [loadAllStatistics]);
 
   const getFeedbackTypeIcon = (type: string) => {
     switch (type) {
@@ -48,7 +44,10 @@ export const StatsPage: React.FC = () => {
     return { level: 'poor', color: '#6b7280', label: '더 노력해보세요' };
   };
 
-  if (isLoading) {
+  // 데이터가 없고 로딩 중이 아닐 때 초기 상태 표시
+  const hasNoData = !dailyStats && !scoreTrend && !errorPatterns && !feedbackStats && !averageScore && !isLoading;
+
+  if (isLoading && hasNoData) {
     return (
       <div className="stats-page">
         <div className="stats-loading">
@@ -67,16 +66,43 @@ export const StatsPage: React.FC = () => {
           <p>AI 교정 서비스 이용 현황을 확인해보세요</p>
         </div>
 
+        <div className="stats-controls">
+          <button 
+            className="refresh-button"
+            onClick={loadAllStatistics}
+            disabled={isLoading}
+          >
+            {isLoading ? '📊 로딩 중...' : '📊 통계 불러오기'}
+          </button>
+        </div>
+
         {error && (
           <div className="error-card">
             <p>😅 통계를 불러오는 중 문제가 발생했어요</p>
-            <button onClick={() => window.location.reload()}>다시 시도</button>
+            <button onClick={loadAllStatistics}>다시 시도</button>
           </div>
         )}
 
-        <div className="stats-grid">
-          {/* 평균 점수 카드 */}
-          <div className="stat-card primary-card">
+        {hasNoData && !isLoading && (
+          <div className="empty-stats">
+            <div className="empty-stats-content">
+              <h3>📊 통계를 불러와주세요</h3>
+              <p>위의 "통계 불러오기" 버튼을 클릭하여<br/>AI 교정 통계를 확인해보세요!</p>
+            </div>
+          </div>
+        )}
+
+        {isLoading && (
+          <div className="stats-loading">
+            <div className="loading-spinner"></div>
+            <p>📊 통계를 불러오는 중입니다...</p>
+          </div>
+        )}
+
+        {!hasNoData && !isLoading && (
+          <div className="stats-grid">
+            {/* 평균 점수 카드 */}
+            <div className="stat-card primary-card">
             <div className="card-header">
               <h3>🎯 전체 평균 점수</h3>
             </div>
@@ -219,10 +245,11 @@ export const StatsPage: React.FC = () => {
               </div>
             </div>
           )}
-        </div>
+          </div>
+        )}
 
         {/* 잘한 표현 섹션 - 데이터가 있을 때만 표시 */}
-        {goodExpressions.length > 0 && (
+        {!hasNoData && !isLoading && goodExpressions.length > 0 && (
           <GoodExpressions 
             goodExpressions={goodExpressions}
             isLoading={isLoading}
