@@ -17,7 +17,6 @@ export const CorrectionInput: React.FC<CorrectionInputProps> = ({
   const handleSubmit = () => {
     if (inputText.trim()) {
       onCorrect(inputText);
-      // 교정 후 입력 텍스트는 유지 (사용자가 다시 편집할 수 있도록)
     }
   };
 

@@ -1,12 +1,10 @@
 import { API_CONFIG, ERROR_MESSAGES } from '../config/api';
 import { ApiError, createApiError } from './apiError';
 
-// 요청 옵션 타입
 interface ApiRequestOptions extends RequestInit {
   timeout?: number;
 }
 
-// 기본 헤더
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
 } as const;
@@ -88,8 +86,6 @@ export class ApiClient {
         throw error;
       }
       
-      // 예상치 못한 에러
-      console.error('Unexpected API error:', error);
       throw new ApiError(0, 'Unknown Error', url, ERROR_MESSAGES.UNKNOWN);
     }
   }

@@ -16,10 +16,9 @@ export const useToast = () => {
     
     setToasts(prev => [...prev, newToast]);
 
-    // 자동 제거
     setTimeout(() => {
       setToasts(prev => prev.filter(toast => toast.id !== id));
-    }, duration + 500); // 애니메이션 시간 추가
+    }, duration + 500);
   }, []);
 
   const removeToast = useCallback((id: string) => {

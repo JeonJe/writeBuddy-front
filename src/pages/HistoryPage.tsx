@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CorrectionHistory } from '../components';
 import { useCorrectionsContext } from '../contexts/CorrectionsContext';
 import { useCorrections } from '../hooks';

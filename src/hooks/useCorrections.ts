@@ -18,7 +18,6 @@ export const useCorrections = () => {
 
   const handleApiError = useCallback((err: unknown): string => {
     if (err instanceof ApiError) {
-      // API 에러의 경우 상세한 정보 제공
       if (err.isNetworkError()) {
         return '인터넷 연결을 확인해주세요.';
       }
@@ -48,7 +47,6 @@ export const useCorrections = () => {
     } catch (err) {
       const errorMessage = handleApiError(err);
       setError(errorMessage);
-      console.error('교정 요청 실패:', err);
     } finally {
       setIsLoading(false);
     }
@@ -70,7 +68,6 @@ export const useCorrections = () => {
     } catch (err) {
       const errorMessage = handleApiError(err);
       setError(errorMessage);
-      console.error('즐겨찾기 토글 실패:', err);
     }
   }, [currentCorrection, handleApiError]);
 
@@ -84,7 +81,6 @@ export const useCorrections = () => {
     } catch (err) {
       const errorMessage = handleApiError(err);
       setError(errorMessage);
-      console.error('교정 목록 로드 실패:', err);
     } finally {
       setIsLoading(false);
     }

@@ -8,56 +8,15 @@ export interface Correction {
   isFavorite: boolean;
   memo: string | null;
   createdAt: string;
-  originTranslation: string | null;    // 원문의 한국어 번역
-  correctedTranslation: string | null; // 교정문의 한국어 번역
-  relatedExamples: RealExample[];      // 관련 실제 사용 예시
+  originTranslation: string | null;
+  correctedTranslation: string | null;
+  relatedExamples: RealExample[];
 }
 
 export interface CreateCorrectionRequest {
   originSentence: string;
 }
 
-export interface DailyStatistics {
-  totalCorrections: number;
-  averageScore: number;
-  feedbackTypes: Record<string, number>;
-}
-
-export interface ScoreTrendItem {
-  order: number;
-  score: number;
-  feedbackType: string;
-  createdAt: string;
-}
-
-export interface ScoreTrend {
-  scoreTrend: ScoreTrendItem[];
-}
-
-export interface ErrorPatterns {
-  errorPatterns: Record<string, string[]>;
-}
-
-export interface StatisticsOverview {
-  totalCorrections: number;
-  averageScore: number;
-  favoriteCount: number;
-  feedbackTypeDistribution: Record<string, number>;
-}
-
-// 🆕 통합 통계 API 응답 타입 (로그인 없는 버전)
-export interface UnifiedStatistics {
-  correctionStatistics: {
-    feedbackTypeStatistics: Record<string, number>;
-    averageScore: number;
-  };
-  dashboardData: {
-    dailyStatistics: DailyStatistics;
-    scoreTrend: ScoreTrendItem[];
-    errorPatterns: Record<string, string[]>;
-  };
-  generatedAt: string;
-}
 
 export type FeedbackType = 'GRAMMAR' | 'SPELLING' | 'STYLE' | 'PUNCTUATION' | 'SYSTEM';
 

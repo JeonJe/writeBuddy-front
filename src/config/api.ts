@@ -1,4 +1,3 @@
-// API 설정 및 상수
 export const API_CONFIG = {
   BASE_URL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:7071',
   TIMEOUT: Number(process.env.REACT_APP_API_TIMEOUT) || 30000,
@@ -10,7 +9,6 @@ export const API_CONFIG = {
   },
 } as const;
 
-// HTTP 상태 코드
 export const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,
@@ -21,7 +19,6 @@ export const HTTP_STATUS = {
   INTERNAL_SERVER_ERROR: 500,
 } as const;
 
-// 에러 메시지
 export const ERROR_MESSAGES = {
   NETWORK_ERROR: '네트워크 연결을 확인해주세요.',
   SERVER_ERROR: '서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.',

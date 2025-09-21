@@ -33,7 +33,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
 
   const handleCreateCorrection = async (text: string) => {
     await createCorrection(text, () => {
-      // 새로운 교정이 성공적으로 생성되었을 때만 토스트 표시
       showSuccess('훨씬 더 멋져졌어요! ✨');
     });
   };
@@ -80,14 +79,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
                 correction={currentCorrection}
                 onToggleFavorite={toggleFavorite}
                 getScoreLevel={getScoreLevel}
-                onTagClick={(tag) => console.log('Tag clicked:', tag)}
+                onTagClick={() => {}}
               />
             )}
           </div>
         </div>
       </main>
         
-      {/* 사이드바 토글 버튼 */}
       <button 
         className="sidebar-toggle" 
         onClick={toggleSidebar}
@@ -100,7 +98,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
         </div>
       </button>
       
-      {/* 사이드바 */}
       <div className={`sidebar ${isSidebarOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-section">
           <div className="quick-action">
@@ -112,15 +109,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
           </div>
         </div>
         
-        <div className="sidebar-section">
-          <div className="quick-action" onClick={() => window.location.href = '/stats'}>
-            <span className="action-icon">📊</span>
-            <div className="action-content">
-              <h3>내 학습 통계</h3>
-              <p>성장 과정을 확인하세요</p>
-            </div>
-          </div>
-        </div>
         
         <div className="sidebar-section">
           <div className="quick-action">
@@ -148,7 +136,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
         </div>
       </div>
       
-      {/* 오버레이 */}
       {isSidebarOpen && (
         <div 
           className="sidebar-overlay" 
@@ -156,7 +143,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenChat }) => {
         />
       )}
 
-      {/* 토스트 알림 */}
       {toasts.map((toast) => (
         <Toast
           key={toast.id}

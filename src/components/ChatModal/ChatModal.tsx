@@ -28,7 +28,6 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
       setQuestion('');
     } catch (err) {
       setError('질문을 처리하는 중 오류가 발생했습니다. 다시 시도해주세요.');
-      console.error('Chat error:', err);
     } finally {
       setIsLoading(false);
     }
@@ -40,17 +39,11 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
 
   const formatAnswer = (answer: string): string => {
     return answer
-      // 개행 문자를 <br> 태그로 변환
       .replace(/\n/g, '<br>')
-      // **텍스트** 를 강조 스타일로 변환
       .replace(/\*\*(.*?)\*\*/g, '<span class="bold-text">$1</span>')
-      // - 로 시작하는 리스트 항목을 스타일링
       .replace(/^- (.+)$/gm, '<div class="list-item">• $1</div>')
-      // 1. 2. 3. 으로 시작하는 번호 리스트를 스타일링
       .replace(/^(\d+)\. (.+)$/gm, '<div class="numbered-item"><span class="number">$1.</span> $2</div>')
-      // 'text' 따옴표를 스타일링
       .replace(/'([^']+)'/g, '<span class="quote-text">"$1"</span>')
-      // 예: 로 시작하는 예시를 스타일링
       .replace(/예: (.+)/g, '<div class="example-text">💡 예시: $1</div>');
   };
 

@@ -38,7 +38,6 @@ export const CorrectionsProvider: React.FC<CorrectionsProviderProps> = ({ childr
   const [error, setError] = useState<string | null>(null);
 
   const handleApiError = useCallback((error: unknown) => {
-    console.error('API Error:', error);
     if (error instanceof ApiError) {
       if (error.isNetworkError()) {
         setError(ERROR_MESSAGES.NETWORK_ERROR);

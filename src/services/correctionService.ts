@@ -1,4 +1,4 @@
-import { Correction, CreateCorrectionRequest, UnifiedStatistics } from '../types';
+import { Correction, CreateCorrectionRequest } from '../types';
 import { apiClient } from '../utils/apiClient';
 import { API_CONFIG } from '../config/api';
 
@@ -50,10 +50,4 @@ export const correctionService = {
     return apiClient.get<Correction[]>(endpoint);
   },
 
-  /**
-   * 통계 API - 모든 통계 데이터를 1번의 API 호출로 조회합니다.
-   */
-  async getUnifiedStatistics(): Promise<UnifiedStatistics> {
-    return apiClient.get<UnifiedStatistics>(API_CONFIG.ENDPOINTS.STATISTICS);
-  },
 };
