@@ -10,41 +10,34 @@
 }
 
 .history-header {
-  text-align: center;
-  margin-bottom: 40px;
-  padding: 40px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 20px 24px;
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.history-header h1 {
-  margin: 0 0 10px 0;
-  color: #333;
-  font-size: 2.5rem;
-}
-
-.history-header p {
+.header-content h1 {
   margin: 0;
-  color: #666;
-  font-size: 1.1rem;
-}
-
-.history-controls {
-  text-align: center;
-  margin-bottom: 30px;
+  color: #333;
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
 .load-history-button {
-  padding: 12px 24px;
+  padding: 10px 20px;
   background: #1976d2;
   color: white;
   border: none;
-  border-radius: 12px;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .load-history-button:hover:not(:disabled) {
@@ -60,24 +53,40 @@
 
 .empty-state {
   text-align: center;
-  padding: 80px 20px;
+  padding: 60px 20px;
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
 .empty-state h3 {
-  margin: 0 0 16px 0;
+  margin: 0 0 12px 0;
   color: #191f28;
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 .empty-state p {
-  margin: 10px 0;
+  margin: 0;
   color: #4e5968;
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.6;
+}
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
 }
 
 /* 모바일 반응형 */
@@ -87,15 +96,23 @@
   }
 
   .history-header {
-    padding: 30px 15px;
-    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px 16px;
+    margin-bottom: 16px;
   }
 
-  .history-header h1 {
-    font-size: 2rem;
+  .header-content h1 {
+    font-size: 1.5rem;
   }
 
-  .history-header p {
-    font-size: 1rem;
+  .load-history-button {
+    width: 100%;
+  }
+
+  .toast-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
   }
 }

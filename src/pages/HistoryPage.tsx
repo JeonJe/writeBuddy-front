@@ -1,7 +1,9 @@
 import React from 'react';
 import { CorrectionHistory } from '../components';
+import { Toast } from '../components/Toast/Toast';
 import { useCorrectionsContext } from '../contexts/CorrectionsContext';
 import { useCorrections } from '../hooks';
+import { useToast } from '../hooks/useToast';
 import './HistoryPage.css';
 
 export const HistoryPage: React.FC = () => {
@@ -13,23 +15,31 @@ export const HistoryPage: React.FC = () => {
   } = useCorrectionsContext();
 
   const { getScoreLevel } = useCorrections();
+  const { toasts, removeToast, showSuccess } = useToast();
+
+  const handleToggleFavorite = async (id: number, currentFavoriteStatus: boolean) => {
+    await toggleFavorite(id);
+    if (currentFavoriteStatus) {
+      showSuccess('💔 즐겨찾기에서 제거했어요');
+    } else {
+      showSuccess('⭐ 즐겨찾기에 추가했어요!');
+    }
+  };
 
 
   return (
     <div className="history-page">
       <div className="history-container">
         <div className="history-header">
-          <h1>교정 기록</h1>
-          <p>지금까지의 영어 학습 기록을 확인해보세요</p>
-        </div>
-
-        <div className="history-controls">
-          <button 
+          <div className="header-content">
+            <h1>내 기록</h1>
+          </div>
+          <button
             className="load-history-button"
             onClick={loadCorrections}
             disabled={isLoadingHistory}
           >
-            {isLoadingHistory ? '📝 로딩 중...' : '📝 교정 기록 불러오기'}
+            {isLoadingHistory ? '새로고침 중...' : '새로고침'}
           </button>
         </div>
         
@@ -40,16 +50,31 @@ export const HistoryPage: React.FC = () => {
           </div>
         ) : corrections.length === 0 ? (
           <div className="empty-state">
-            <h3>📝 교정 기록을 불러와주세요</h3>
-            <p>위의 "교정 기록 불러오기" 버튼을 클릭하여<br/>지금까지의 영어 학습 기록을 확인해보세요!</p>
+            <div className="empty-icon">📝</div>
+            <h3>아직 교정 기록이 없어요</h3>
+            <p>새로고침 버튼을 눌러 기록을 불러오거나<br/>새로운 영어 문장을 교정해보세요!</p>
           </div>
         ) : (
           <CorrectionHistory
             corrections={corrections}
-            onToggleFavorite={toggleFavorite}
+            onToggleFavorite={handleToggleFavorite}
             getScoreLevel={getScoreLevel}
           />
         )}
+      </div>
+
+      {/* Toast 컴포넌트들 렌더링 */}
+      <div className="toast-container">
+        {toasts.map((toast) => (
+          <Toast
+            key={toast.id}
+            message={toast.message}
+            type={toast.type}
+            duration={toast.duration}
+            isVisible={true}
+            onClose={() => removeToast(toast.id)}
+          />
+        ))}
       </div>
     </div>
   );

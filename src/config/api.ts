@@ -4,7 +4,6 @@ export const API_CONFIG = {
   ENDPOINTS: {
     CORRECTIONS: '/corrections',
     FAVORITES: '/corrections/favorites',
-    STATISTICS: '/statistics',
     GOOD_EXPRESSIONS: '/corrections/users/{userId}/good-expressions',
   },
 } as const;
