@@ -1,9 +1,9 @@
 .real-example-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-  padding: 1rem;
+  background: var(--bg-base);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
   margin-bottom: 0.75rem;
-  border: 1px solid rgba(226, 232, 240, 0.5);
+  border: 1px solid var(--border-color);
   transition: all 0.2s ease;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }

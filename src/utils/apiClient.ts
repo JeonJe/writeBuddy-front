@@ -1,5 +1,6 @@
 import { API_CONFIG, ERROR_MESSAGES } from '../config/api';
 import { ApiError, createApiError } from './apiError';
+import { IStorage, LocalStorageAdapter } from './storage';
 
 interface ApiRequestOptions extends RequestInit {
   timeout?: number;
@@ -11,7 +12,7 @@ const DEFAULT_HEADERS = {
 
 // Timeout을 지원하는 fetch 래퍼
 const fetchWithTimeout = async (
-  url: string, 
+  url: string,
   options: ApiRequestOptions = {}
 ): Promise<Response> => {
   const { timeout = API_CONFIG.TIMEOUT, ...fetchOptions } = options;
@@ -24,19 +25,19 @@ const fetchWithTimeout = async (
       ...fetchOptions,
       signal: controller.signal,
     });
-    
+
     clearTimeout(timeoutId);
     return response;
   } catch (error) {
     clearTimeout(timeoutId);
-    
+
     if (error instanceof Error) {
       if (error.name === 'AbortError') {
         throw new ApiError(0, 'Timeout', url, ERROR_MESSAGES.TIMEOUT);
       }
       throw new ApiError(0, 'Network Error', url, ERROR_MESSAGES.NETWORK_ERROR);
     }
-    
+
     throw error;
   }
 };
@@ -44,20 +45,31 @@ const fetchWithTimeout = async (
 // API 클라이언트 클래스
 export class ApiClient {
   private baseUrl: string;
+  private storage: IStorage;
+  private tokenRefreshCallback?: () => Promise<void>;
 
-  constructor(baseUrl: string = API_CONFIG.BASE_URL) {
+  constructor(baseUrl: string = API_CONFIG.BASE_URL, storage: IStorage = new LocalStorageAdapter()) {
     this.baseUrl = baseUrl;
+    this.storage = storage;
+  }
+
+  public setTokenRefreshCallback(callback: () => Promise<void>): void {
+    this.tokenRefreshCallback = callback;
   }
 
   private async request<T>(
     endpoint: string,
-    options: ApiRequestOptions = {}
+    options: ApiRequestOptions = {},
+    isRetry: boolean = false
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
-    
+
+    // Add authorization header if token exists
+    const token = this.storage.getItem('accessToken');
     const requestOptions: ApiRequestOptions = {
       headers: {
         ...DEFAULT_HEADERS,
+        ...(token && { Authorization: `Bearer ${token}` }),
         ...options.headers,
       },
       ...options,
@@ -65,6 +77,17 @@ export class ApiClient {
 
     try {
       const response = await fetchWithTimeout(url, requestOptions);
+
+      // Handle 401 with token refresh
+      if (response.status === 401 && !isRetry && this.tokenRefreshCallback) {
+        try {
+          await this.tokenRefreshCallback();
+          // Retry the request after token refresh
+          return this.request<T>(endpoint, options, true);
+        } catch (refreshError) {
+          throw createApiError(response);
+        }
+      }
 
       if (!response.ok) {
         throw createApiError(response);

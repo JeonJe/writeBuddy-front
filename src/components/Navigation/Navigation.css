@@ -1,17 +1,18 @@
+/* === Navigation - Light Theme === */
 .navigation {
-  background: white;
-  border-bottom: 1px solid #f1f3f4;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   background-color: rgba(255, 255, 255, 0.95);
 }
 
 .nav-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 var(--space-lg);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -27,52 +28,58 @@
 
 .nav-brand h1 {
   margin: 0;
-  color: #191f28;
+  color: var(--text-primary);
   font-size: 1.5rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .nav-tagline {
   font-size: 0.75rem;
-  color: #8b95a1;
+  color: var(--text-muted);
   font-weight: 500;
 }
 
 .nav-links {
   display: flex;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 
 .nav-link {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
   text-decoration: none;
-  color: #4e5968;
-  border-radius: 12px;
+  color: var(--text-secondary);
+  border-radius: var(--radius-lg);
   transition: all 0.2s ease;
   font-weight: 600;
   font-size: 0.9rem;
   position: relative;
+  border: 1px solid transparent;
 }
 
 .nav-link:hover {
-  background-color: #f8f9fb;
-  color: #191f28;
+  background-color: var(--bg-highlight);
+  color: var(--text-primary);
   transform: translateY(-1px);
 }
 
 .nav-link.active {
-  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  background: var(--accent-gradient);
   color: white;
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+  box-shadow: var(--shadow-glow);
+  border-color: transparent;
 }
 
 .nav-link.active:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4);
+  box-shadow: 0 6px 24px rgba(74, 158, 255, 0.4);
 }
 
 .nav-icon {
@@ -84,24 +91,10 @@
   white-space: nowrap;
 }
 
-/* 액티브 링크 애니메이션 */
-.nav-link.active::before {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 3px;
-  background: #1976d2;
-  border-radius: 2px;
-  opacity: 0.8;
-}
-
 /* 모바일 반응형 */
 @media (max-width: 768px) {
   .nav-container {
-    padding: 0 16px;
+    padding: 0 var(--space-md);
     height: 64px;
   }
 
@@ -114,25 +107,42 @@
   }
 
   .nav-links {
-    gap: 4px;
+    gap: var(--space-xs);
   }
 
   .nav-link {
-    padding: 8px 12px;
+    padding: var(--space-sm) var(--space-md);
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-xs);
     min-width: 60px;
+    border-radius: var(--radius-md);
   }
 
   .nav-icon {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .nav-text {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* 작은 모바일 */
+@media (max-width: 480px) {
+  .nav-brand h1 {
+    font-size: 1.1rem;
   }
 
-  .nav-link.active::before {
+  .nav-tagline {
     display: none;
+  }
+
+  .nav-link {
+    padding: var(--space-sm);
+    min-width: 52px;
+  }
+
+  .nav-text {
+    font-size: 0.65rem;
   }
 }

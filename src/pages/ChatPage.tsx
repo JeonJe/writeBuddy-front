@@ -1,11 +1,29 @@
 import React, { useState, useRef, useEffect, KeyboardEvent } from 'react';
-import { ChatService } from '../services/chatService';
+import DOMPurify from 'dompurify';
+import { chatService } from '../services/chatService';
 import { ChatRequest, ChatResponse } from '../types/correction.types';
 import './ChatPage.css';
 
+const CHAT_STORAGE_KEY = 'writebuddy_chat_history';
+
+interface ChatMessage {
+  question: string;
+  answer: string;
+  timestamp: string;
+}
+
+const loadChatHistory = (): ChatMessage[] => {
+  try {
+    const stored = localStorage.getItem(CHAT_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
 export const ChatPage: React.FC = () => {
   const [question, setQuestion] = useState('');
-  const [chatHistory, setChatHistory] = useState<{ question: string; answer: string; timestamp: Date }[]>([]);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>(loadChatHistory);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -14,6 +32,13 @@ export const ChatPage: React.FC = () => {
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [chatHistory]);
+
+  // localStorage 저장
+  useEffect(() => {
+    if (chatHistory.length > 0) {
+      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(chatHistory));
     }
   }, [chatHistory]);
 
@@ -53,12 +78,12 @@ export const ChatPage: React.FC = () => {
 
     try {
       const request: ChatRequest = { question: newQuestion };
-      const response: ChatResponse = await ChatService.sendQuestion(request);
+      const response: ChatResponse = await chatService.sendQuestion(request);
       
       setChatHistory(prev => [...prev, {
         question: newQuestion,
         answer: response.answer,
-        timestamp: new Date()
+        timestamp: new Date().toISOString()
       }]);
     } catch (err) {
       setError('질문을 처리하는 중 오류가 발생했습니다. 다시 시도해주세요.');
@@ -77,6 +102,7 @@ export const ChatPage: React.FC = () => {
   const clearChat = () => {
     setChatHistory([]);
     setError(null);
+    localStorage.removeItem(CHAT_STORAGE_KEY);
   };
 
   const exampleQuestions = [
@@ -121,18 +147,18 @@ export const ChatPage: React.FC = () => {
                 <div className="chat-bubble user-bubble">
                   <p>{chat.question}</p>
                   <span className="timestamp">
-                    {chat.timestamp.toLocaleTimeString('ko-KR', {
+                    {new Date(chat.timestamp).toLocaleTimeString('ko-KR', {
                       hour: '2-digit',
                       minute: '2-digit'
                     })}
                   </span>
                 </div>
                 <div className="chat-bubble assistant-bubble">
-                  <div 
-                    dangerouslySetInnerHTML={{ __html: formatAnswer(chat.answer) }}
+                  <div
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(formatAnswer(chat.answer)) }}
                   />
                   <span className="timestamp">
-                    {chat.timestamp.toLocaleTimeString('ko-KR', {
+                    {new Date(chat.timestamp).toLocaleTimeString('ko-KR', {
                       hour: '2-digit',
                       minute: '2-digit'
                     })}

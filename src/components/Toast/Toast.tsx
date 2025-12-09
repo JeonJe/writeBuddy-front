@@ -61,9 +61,14 @@ export const Toast: React.FC<ToastProps> = ({
   };
 
   return (
-    <div className={`toast toast-${type} ${isShowing ? 'toast-show' : 'toast-hide'}`}>
+    <div
+      className={`toast toast-${type} ${isShowing ? 'toast-show' : 'toast-hide'}`}
+      role="alert"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       <div className="toast-content">
-        <div className="toast-icon">
+        <div className="toast-icon" aria-hidden="true">
           {getIcon()}
         </div>
         <div className="toast-text">
@@ -71,7 +76,7 @@ export const Toast: React.FC<ToastProps> = ({
           <div className="toast-message">{message}</div>
         </div>
       </div>
-      <div className="toast-progress">
+      <div className="toast-progress" aria-hidden="true">
         <div className="toast-progress-bar" style={{ animationDuration: `${duration}ms` }}></div>
       </div>
     </div>

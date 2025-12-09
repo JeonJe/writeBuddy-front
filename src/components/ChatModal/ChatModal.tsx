@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChatService } from '../../services/chatService';
+import { chatService } from '../../services/chatService';
 import { ChatResponse } from '../../types';
 import './ChatModal.css';
 
@@ -23,7 +23,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
     setError(null);
     
     try {
-      const response = await ChatService.sendQuestion({ question: question.trim() });
+      const response = await chatService.sendQuestion({ question: question.trim() });
       setChatHistory(prev => [...prev, response]);
       setQuestion('');
     } catch (err) {

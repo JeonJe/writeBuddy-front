@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, KeyboardEvent } from 'react';
-import { ChatService } from '../../services/chatService';
+import { chatService } from '../../services/chatService';
 import { ChatRequest, ChatResponse } from '../../types/correction.types';
 import './ChatSidePanel.css';
 
@@ -63,7 +63,7 @@ export const ChatSidePanel: React.FC<ChatSidePanelProps> = ({ isOpen, onClose })
 
     try {
       const request: ChatRequest = { question: newQuestion };
-      const response: ChatResponse = await ChatService.sendQuestion(request);
+      const response: ChatResponse = await chatService.sendQuestion(request);
       
       setChatHistory(prev => [...prev, {
         question: newQuestion,

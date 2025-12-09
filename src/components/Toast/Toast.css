@@ -1,14 +1,15 @@
+/* === Toast - Light Theme === */
 .toast {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: var(--space-lg);
+  right: var(--space-lg);
   min-width: 320px;
   max-width: 400px;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  border: 1px solid #f1f3f4;
-  z-index: 1001;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  z-index: 1100;
   overflow: hidden;
   transform: translateX(100%);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -26,8 +27,8 @@
 .toast-content {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 20px;
+  gap: var(--space-md);
+  padding: var(--space-lg);
 }
 
 .toast-icon {
@@ -58,19 +59,19 @@
 .toast-title {
   font-size: 1rem;
   font-weight: 700;
-  color: #191f28;
-  margin-bottom: 4px;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
 }
 
 .toast-message {
   font-size: 0.9rem;
-  color: #4e5968;
-  line-height: 1.4;
+  color: var(--text-secondary);
+  line-height: 1.5;
 }
 
 .toast-progress {
   height: 4px;
-  background: #f1f3f4;
+  background: var(--bg-highlight);
   position: relative;
   overflow: hidden;
 }
@@ -78,7 +79,7 @@
 .toast-progress-bar {
   height: 100%;
   width: 100%;
-  background: linear-gradient(90deg, #1976d2, #42a5f5);
+  background: var(--accent-gradient);
   transform: translateX(-100%);
   animation: progressSlide linear forwards;
 }
@@ -89,49 +90,58 @@
   }
 }
 
-/* 타입별 스타일 */
+/* === Type Styles === */
 .toast-success {
-  border-left: 4px solid #10b981;
+  border-left: 4px solid var(--color-success);
 }
 
 .toast-success .toast-progress-bar {
-  background: linear-gradient(90deg, #10b981, #34d399);
+  background: linear-gradient(90deg, var(--color-success), #34d399);
 }
 
 .toast-error {
-  border-left: 4px solid #ef4444;
+  border-left: 4px solid var(--color-error);
 }
 
 .toast-error .toast-progress-bar {
-  background: linear-gradient(90deg, #ef4444, #f87171);
+  background: linear-gradient(90deg, var(--color-error), #f87171);
 }
 
 .toast-info {
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid var(--accent-primary);
 }
 
 .toast-info .toast-progress-bar {
-  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  background: var(--accent-gradient);
 }
 
-/* 호버 효과 */
+.toast-warning {
+  border-left: 4px solid var(--color-warning);
+}
+
+.toast-warning .toast-progress-bar {
+  background: linear-gradient(90deg, var(--color-warning), #fbbf24);
+}
+
+/* === Hover Effect === */
 .toast:hover .toast-progress-bar {
   animation-play-state: paused;
 }
 
-/* 모바일 반응형 */
+/* === Mobile Responsive === */
 @media (max-width: 768px) {
   .toast {
-    top: 10px;
-    right: 10px;
-    left: 10px;
+    top: var(--space-md);
+    right: var(--space-md);
+    left: var(--space-md);
     min-width: auto;
     max-width: none;
-    margin: 0 10px;
+    margin: 0;
+    border-radius: var(--radius-lg);
   }
 
   .toast-content {
-    padding: 16px;
+    padding: var(--space-md);
   }
 
   .toast-icon {
@@ -147,7 +157,7 @@
   }
 }
 
-/* 여러 토스트를 위한 스택 효과 */
+/* === Toast Stack === */
 .toast:nth-child(2) {
   top: 100px;
   transform: translateX(100%) scale(0.95);

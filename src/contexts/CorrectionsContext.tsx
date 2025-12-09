@@ -8,6 +8,8 @@ interface CorrectionsContextType {
   // 상태
   corrections: Correction[];
   currentCorrection: Correction | null;
+  sessionCorrections: Correction[]; // 세션 내 교정 히스토리
+  currentIndex: number; // 현재 보고 있는 카드 인덱스
   inputText: string;
   isLoading: boolean;
   isLoadingHistory: boolean;
@@ -19,6 +21,7 @@ interface CorrectionsContextType {
   toggleFavorite: (correctionId: number) => Promise<void>;
   updateMemo: (correctionId: number, memo: string) => Promise<void>;
   setInputText: (text: string) => void;
+  setCurrentIndex: (index: number) => void;
   clearError: () => void;
   clearCurrentCorrection: () => void;
 }
@@ -32,6 +35,8 @@ interface CorrectionsProviderProps {
 export const CorrectionsProvider: React.FC<CorrectionsProviderProps> = ({ children }) => {
   const [corrections, setCorrections] = useState<Correction[]>([]);
   const [currentCorrection, setCurrentCorrection] = useState<Correction | null>(null);
+  const [sessionCorrections, setSessionCorrections] = useState<Correction[]>([]); // 세션 히스토리
+  const [currentIndex, setCurrentIndex] = useState<number>(0); // 현재 인덱스
   const [inputText, setInputText] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingHistory, setIsLoadingHistory] = useState<boolean>(false);
@@ -52,11 +57,14 @@ export const CorrectionsProvider: React.FC<CorrectionsProviderProps> = ({ childr
   const createCorrection = useCallback(async (originSentence: string, onSuccess?: () => void) => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       const newCorrection = await correctionService.createCorrection({ originSentence });
       setCurrentCorrection(newCorrection);
       setCorrections(prev => [newCorrection, ...prev]);
+      // 세션 히스토리에 추가하고 최신 카드로 이동
+      setSessionCorrections(prev => [...prev, newCorrection]);
+      setCurrentIndex(sessionCorrections.length); // 새 카드 인덱스로 이동
       // 새로운 교정 생성 성공 시 콜백 실행
       onSuccess?.();
     } catch (err) {
@@ -64,7 +72,7 @@ export const CorrectionsProvider: React.FC<CorrectionsProviderProps> = ({ childr
     } finally {
       setIsLoading(false);
     }
-  }, [handleApiError]);
+  }, [handleApiError, sessionCorrections.length]);
 
   const loadCorrections = useCallback(async () => {
     setIsLoadingHistory(true);
@@ -140,6 +148,8 @@ export const CorrectionsProvider: React.FC<CorrectionsProviderProps> = ({ childr
     // 상태
     corrections,
     currentCorrection,
+    sessionCorrections,
+    currentIndex,
     inputText,
     isLoading,
     isLoadingHistory,
@@ -151,6 +161,7 @@ export const CorrectionsProvider: React.FC<CorrectionsProviderProps> = ({ childr
     toggleFavorite,
     updateMemo,
     setInputText,
+    setCurrentIndex,
     clearError,
     clearCurrentCorrection,
   };
