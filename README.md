@@ -11,40 +11,44 @@ WriteBuddy는 OpenAI를 활용한 실시간 영어 문법 교정 웹 애플리�
 - **품질 평가**: 1-10점 척도로 문장 품질 평가
 - **자동 번역**: 원문과 교정문의 한국어 번역 제공
 - **친근한 피드백**: 재미있고 이해하기 쉬운 설명
+- **단어 학습**: 클릭으로 단어 의미 및 예문 확인
 
 ### 📊 학습 관리
 - **교정 내역**: 과거 교정 기록 저장 및 조회
 - **즐겨찾기**: 중요한 교정 내용 북마크
-- **학습 통계**: 개인별 학습 진도 및 성취도 추적
-- **좋은 표현**: 10점 만점 문장들을 별도 분류
+- **필터링**: 고득점/복습필요 문장 분류
+- **검색**: 교정 기록 내 키워드 검색
 
-### 💬 영어 도우미
+### 💬 AI 영어 도우미
 - **AI 채팅**: 영어 학습 관련 질문 및 상담
-- **실시간 대화**: 사이드 패널을 통한 편리한 접근
+- **마크다운 지원**: 구조화된 답변 렌더링
+- **사이드 패널**: 교정하면서 바로 질문 가능
 
 ## 🛠️ 기술 스택
 
 ### Frontend
-- **React 19** - 메인 프레임워크
+- **React 19** - UI 프레임워크
 - **TypeScript** - 타입 안전성
-- **React Router** - SPA 라우팅
-- **CSS Modules** - 컴포넌트 스타일링
+- **React Router 7** - SPA 라우팅
+- **react-markdown** - AI 응답 마크다운 렌더링
+- **DOMPurify** - XSS 방지
 
 ### Backend
 - **Spring Boot** - REST API 서버
 - **Kotlin** - 백엔드 언어
 - **JPA/Hibernate** - 데이터베이스 ORM
-- **H2 Database** - 개발용 인메모리 DB
 
 ### AI Integration
-- **OpenAI API** - GPT 기반 문법 교정
-- **통합 JSON 응답** - 교정과 예시를 한 번에 생성
-- **최적화된 성능** - API 호출 50% 감소
+- **OpenAI API** - GPT 기반 문법 교정 및 채팅
+
+### Deployment
+- **Vercel** - 프론트엔드 호스팅
+- **Railway** - 백엔드 호스팅
 
 ## 🚀 시작하기
 
 ### 사전 요구사항
-- Node.js 16+
+- Node.js 18+
 - npm 또는 yarn
 
 ### 설치 및 실행
@@ -68,48 +72,52 @@ npm start
 프로젝트 루트에 `.env` 파일을 생성하고 필요한 환경 변수를 설정하세요:
 
 ```env
-# 개발 환경
-REACT_APP_API_BASE_URL=http://localhost:9091
+REACT_APP_API_BASE_URL=http://localhost:7071
 REACT_APP_API_TIMEOUT=30000
-
-# 프로덕션 환경 (자동 설정됨)
-# REACT_APP_API_BASE_URL=https://writebuddy-server-prod.up.railway.app
 ```
 
 ## 📱 주요 페이지
 
-- **홈페이지** (`/`) - 문법 교정 입력 및 결과
-- **교정 내역** (`/history`) - 과거 교정 기록 조회
-- **학습 통계** (`/stats`) - 개인 학습 데이터 분석
+| 경로 | 페이지 | 설명 |
+|------|--------|------|
+| `/` | 홈페이지 | 문법 교정 입력 및 결과, AI 채팅 |
+| `/history` | 교정 내역 | 과거 교정 기록 조회 및 검색 |
 
 ## 🏗️ 프로젝트 구조
 
 ```
 src/
 ├── components/          # 재사용 가능한 UI 컴포넌트
-├── pages/              # 페이지 컴포넌트
-├── contexts/           # React Context (상태 관리)
-├── hooks/              # 커스텀 훅
-├── services/           # API 서비스
-├── types/              # TypeScript 타입 정의
-├── config/             # 설정 파일
-└── utils/              # 유틸리티 함수
+│   ├── ChatInterface/   # AI 채팅 인터페이스
+│   ├── CorrectionInput/ # 입력 폼
+│   ├── CorrectionResult/# 교정 결과 표시
+│   ├── CorrectionHistory/# 교정 기록 리스트
+│   ├── ResultCarousel/  # 세션 결과 캐러셀
+│   ├── Navigation/      # 상단 네비게이션
+│   └── Toast/           # 토스트 알림
+├── pages/               # 페이지 컴포넌트
+│   ├── HomePage.tsx     # 메인 교정 페이지
+│   └── HistoryPage.tsx  # 교정 기록 페이지
+├── contexts/            # React Context (상태 관리)
+├── hooks/               # 커스텀 훅
+├── services/            # API 서비스
+├── types/               # TypeScript 타입 정의
+├── config/              # 설정 파일
+└── utils/               # 유틸리티 함수
 ```
 
-## 🔨 빌드
+## 🔨 스크립트
 
 ```bash
-# 프로덕션 빌드
-npm run build
+npm start      # 개발 서버 시작
+npm run build  # 프로덕션 빌드
+npm test       # 테스트 실행
+npm run prod   # 프로덕션 환경으로 실행
 ```
 
 ## 📄 라이선스
 
 이 프로젝트는 MIT 라이선스 하에 배포됩니다.
-
-## 📞 문의
-
-프로젝트에 대한 질문이나 제안사항이 있으시면 이슈를 생성해 주세요.
 
 ---
 
