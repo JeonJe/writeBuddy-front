@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import DOMPurify from 'dompurify';
 import { chatService } from '../../services/chatService';
 import { ChatResponse } from '../../types';
 import './ChatModal.css';
@@ -117,9 +118,9 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
                     </div>
                     <div className="answer-bubble">
                       <strong>A:</strong>
-                      <div 
+                      <div
                         className="answer-content"
-                        dangerouslySetInnerHTML={{ __html: formatAnswer(chat.answer) }}
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(formatAnswer(chat.answer)) }}
                       />
                     </div>
                     <div className="chat-timestamp">

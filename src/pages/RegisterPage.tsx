@@ -34,9 +34,11 @@ export const RegisterPage: React.FC = () => {
     try {
       await register(username, email, password);
       navigate('/');
-    } catch (err: any) {
-      // ApiError인 경우 서버 메시지 우선 사용
-      const errorMessage = err.serverMessage || err.message || '회원가입에 실패했습니다. 다시 시도해주세요.';
+    } catch (err: unknown) {
+      // 에러 타입에 따른 메시지 처리
+      const errorMessage = err instanceof Error
+        ? err.message
+        : '회원가입에 실패했습니다. 다시 시도해주세요.';
       setError(errorMessage);
     } finally {
       setIsLoading(false);

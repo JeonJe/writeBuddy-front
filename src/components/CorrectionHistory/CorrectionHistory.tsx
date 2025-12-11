@@ -2,6 +2,13 @@ import React from 'react';
 import { Correction, ScoreLevel } from '../../types';
 import './CorrectionHistory.css';
 
+// HTML 엔티티 이스케이프 함수 (XSS 방지)
+const escapeHtml = (text: string): string => {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+};
+
 interface CorrectionHistoryProps {
   corrections: Correction[];
   onToggleFavorite: (id: number, currentFavoriteStatus: boolean) => void;
@@ -26,11 +33,11 @@ export const CorrectionHistory: React.FC<CorrectionHistoryProps> = ({
   };
 
   const highlightDifferences = (original: string, corrected: string) => {
-    // 문장이 동일하면 하이라이트 없이 반환
+    // 문장이 동일하면 하이라이트 없이 반환 (XSS 방지를 위해 이스케이프)
     if (original === corrected) {
       return {
-        originalHighlighted: original,
-        correctedHighlighted: corrected
+        originalHighlighted: escapeHtml(original),
+        correctedHighlighted: escapeHtml(corrected)
       };
     }
 
@@ -60,22 +67,22 @@ export const CorrectionHistory: React.FC<CorrectionHistoryProps> = ({
 
     while (i > 0 || j > 0) {
       if (i > 0 && j > 0 && originalWords[i - 1] === correctedWords[j - 1]) {
-        originalResult.unshift(originalWords[i - 1]);
-        correctedResult.unshift(correctedWords[j - 1]);
+        originalResult.unshift(escapeHtml(originalWords[i - 1]));
+        correctedResult.unshift(escapeHtml(correctedWords[j - 1]));
         i--;
         j--;
       } else if (i > 0 && (j === 0 || dp[i - 1][j] >= dp[i][j - 1])) {
         if (originalWords[i - 1].trim()) { // 공백이 아닌 경우만 하이라이트
-          originalResult.unshift(`<span class="diff-removed">${originalWords[i - 1]}</span>`);
+          originalResult.unshift(`<span class="diff-removed">${escapeHtml(originalWords[i - 1])}</span>`);
         } else {
-          originalResult.unshift(originalWords[i - 1]);
+          originalResult.unshift(escapeHtml(originalWords[i - 1]));
         }
         i--;
       } else {
         if (correctedWords[j - 1].trim()) { // 공백이 아닌 경우만 하이라이트
-          correctedResult.unshift(`<span class="diff-added">${correctedWords[j - 1]}</span>`);
+          correctedResult.unshift(`<span class="diff-added">${escapeHtml(correctedWords[j - 1])}</span>`);
         } else {
-          correctedResult.unshift(correctedWords[j - 1]);
+          correctedResult.unshift(escapeHtml(correctedWords[j - 1]));
         }
         j--;
       }

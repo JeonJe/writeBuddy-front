@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, KeyboardEvent } from 'react';
+import DOMPurify from 'dompurify';
 import { chatService } from '../../services/chatService';
 import { ChatRequest, ChatResponse } from '../../types/correction.types';
 import './ChatSidePanel.css';
@@ -145,9 +146,9 @@ export const ChatSidePanel: React.FC<ChatSidePanelProps> = ({ isOpen, onClose })
                 <div className="chat-message ai-message">
                   <div className="message-avatar">🤖</div>
                   <div className="message-bubble">
-                    <div 
+                    <div
                       className="message-content"
-                      dangerouslySetInnerHTML={{ __html: formatAnswer(chat.answer) }}
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(formatAnswer(chat.answer)) }}
                     />
                     <div className="message-time">
                       {chat.timestamp.toLocaleTimeString('ko-KR', {
