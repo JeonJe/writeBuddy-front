@@ -27,7 +27,7 @@
 *.swo
 
 # AI Tools
-.claude/
+.claude2/
 .serena/
 
 # OS

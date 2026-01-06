@@ -13,6 +13,16 @@ export const API_CONFIG = {
     GOOD_EXPRESSIONS: '/corrections/users/{userId}/good-expressions',
     // Chat endpoint
     CHAT: '/chat',
+    CHAT_STREAM: '/chat/stream',
+    // Word/Grammar search endpoints
+    WORDS_SEARCH: '/words/search',
+    GRAMMAR_SEARCH: '/words/grammar/search',
+    // Practice endpoint
+    PRACTICE_SENTENCE: '/practice/sentence',
+    // Review endpoints
+    REVIEW_SENTENCES: '/review/sentences',
+    REVIEW_COMPARE: '/review/compare',
+    REVIEW_RECORDS: '/review/records',
   },
 } as const;
 

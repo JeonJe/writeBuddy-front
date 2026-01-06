@@ -7,6 +7,38 @@
   height: 100%;
 }
 
+/* === 모드 탭 (입력창 위) === */
+.mode-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: var(--space-sm);
+}
+
+.mode-tab {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  background: var(--bg-card);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.mode-tab:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.mode-tab.active {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+}
+
 /* === 메시지 영역 === */
 .chat-interface .chat-messages {
   display: block; /* 다른 컴포넌트의 .chat-messages 스타일 영향 방지 */
@@ -15,6 +47,33 @@
   padding: var(--space-md);
   min-height: 0;
   max-height: none;
+  position: relative;
+}
+
+/* 맨 아래로 버튼 */
+.scroll-to-bottom {
+  position: sticky;
+  bottom: 8px;
+  margin-left: auto;
+  margin-right: 4px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+}
+
+.scroll-to-bottom:hover {
+  opacity: 1;
+  background: var(--accent-primary);
 }
 
 /* 스크롤바 스타일링 */
@@ -55,9 +114,16 @@
   75% { transform: rotate(-20deg); }
 }
 
-.chat-welcome p {
+.chat-welcome .welcome-title {
+  margin: 0 0 var(--space-xs) 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.chat-welcome .welcome-hint {
   margin: 0 0 var(--space-lg) 0;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
 }
 
@@ -143,8 +209,15 @@
   border-bottom-right-radius: var(--radius-xs);
 }
 
+/* 모드 뱃지 (단어/문법) */
+.mode-badge {
+  display: inline-block;
+  margin-right: 6px;
+  font-size: 0.9em;
+}
+
 .message.ai .message-content {
-  background: var(--bg-card);
+  background: #ffffff;
   color: var(--text-primary);
   border-bottom-left-radius: var(--radius-xs);
   border: 1px solid var(--border-color);
@@ -253,24 +326,24 @@
 }
 
 /* 로딩 애니메이션 */
-.message-content.loading {
+.message-content .loading {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: var(--space-sm) var(--space-md);
+  gap: 6px;
+  padding: 4px 0;
 }
 
-.message-content.loading .dot {
-  width: 6px;
-  height: 6px;
-  background: var(--text-muted);
+.message-content .loading .dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-primary);
   border-radius: 50%;
   animation: bounce 1.4s ease-in-out infinite;
 }
 
-.message-content.loading .dot:nth-child(1) { animation-delay: 0s; }
-.message-content.loading .dot:nth-child(2) { animation-delay: 0.2s; }
-.message-content.loading .dot:nth-child(3) { animation-delay: 0.4s; }
+.message-content .loading .dot:nth-child(1) { animation-delay: 0s; }
+.message-content .loading .dot:nth-child(2) { animation-delay: 0.2s; }
+.message-content .loading .dot:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes bounce {
   0%, 80%, 100% { transform: translateY(0); }
@@ -307,30 +380,10 @@
   background: var(--bg-card);
 }
 
-.clear-btn {
-  display: block;
-  width: 100%;
-  background: none;
-  border: 1px dashed var(--border-color);
-  border-radius: var(--radius-md);
-  padding: var(--space-xs) var(--space-sm);
-  margin-bottom: var(--space-sm);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.clear-btn:hover {
-  background: #fef2f2;
-  border-color: var(--color-error);
-  color: var(--color-error);
-}
-
 .input-row {
   display: flex;
   gap: var(--space-sm);
-  align-items: flex-end;
+  align-items: center;
 }
 
 .input-row textarea {
@@ -341,8 +394,9 @@
   font-size: 0.85rem;
   font-family: inherit;
   resize: none;
-  line-height: 1.4;
-  max-height: 80px;
+  line-height: 1.5;
+  min-height: 52px;
+  max-height: 100px;
   transition: border-color 0.2s ease;
 }
 
@@ -378,17 +432,22 @@
 }
 
 .send-btn:disabled {
-  background: var(--border-color);
-  color: var(--text-muted);
+  background: rgba(49, 130, 246, 0.4);
+  color: rgba(255, 255, 255, 0.7);
   cursor: not-allowed;
-}
-
-.input-hint {
-  display: none; /* 공간 확보를 위해 숨김 */
 }
 
 /* === 모바일 반응형 === */
 @media (max-width: 768px) {
+  .mode-tabs {
+    gap: 3px;
+  }
+
+  .mode-tab {
+    padding: 5px 6px;
+    font-size: 0.7rem;
+  }
+
   .chat-interface .chat-messages {
     padding: var(--space-sm);
   }
