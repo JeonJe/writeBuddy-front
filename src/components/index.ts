@@ -13,3 +13,8 @@ export * from './LoadingState';
 export * from './Toast';
 export * from './GoodExpressions/GoodExpressions';
 export * from './ResultCarousel/ResultCarousel';
+export * from './PracticePanel/PracticePanel';
+export * from './GoalSelectionModal/GoalSelectionModal';
+export * from './ProgressBar/ProgressBar';
+export * from './AnswerComparison/AnswerComparison';
+export * from './CompletionModal/CompletionModal';
