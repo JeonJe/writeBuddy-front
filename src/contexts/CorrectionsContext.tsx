@@ -89,28 +89,45 @@ export const CorrectionsProvider: React.FC<CorrectionsProviderProps> = ({ childr
   }, [handleApiError]);
 
   const toggleFavorite = useCallback(async (correctionId: number) => {
+    // 로컬 상태 먼저 업데이트 (optimistic update)
+    const previousCorrections = corrections;
+    const previousCurrentCorrection = currentCorrection;
+    const previousSessionCorrections = sessionCorrections;
+
+    setCorrections(prev =>
+      prev.map(correction =>
+        correction.id === correctionId
+          ? { ...correction, isFavorite: !correction.isFavorite }
+          : correction
+      )
+    );
+
+    setSessionCorrections(prev =>
+      prev.map(correction =>
+        correction.id === correctionId
+          ? { ...correction, isFavorite: !correction.isFavorite }
+          : correction
+      )
+    );
+
+    if (currentCorrection?.id === correctionId) {
+      setCurrentCorrection(prev =>
+        prev ? { ...prev, isFavorite: !prev.isFavorite } : null
+      );
+    }
+
     try {
       await correctionService.toggleFavorite(correctionId);
-      
-      // 상태 업데이트
-      setCorrections(prev => 
-        prev.map(correction => 
-          correction.id === correctionId 
-            ? { ...correction, isFavorite: !correction.isFavorite }
-            : correction
-        )
-      );
-      
-      // 현재 교정 결과도 업데이트
-      if (currentCorrection?.id === correctionId) {
-        setCurrentCorrection(prev => 
-          prev ? { ...prev, isFavorite: !prev.isFavorite } : null
-        );
-      }
     } catch (err) {
+      // API 호출 실패 시 상태 롤백
+      setCorrections(previousCorrections);
+      setSessionCorrections(previousSessionCorrections);
+      if (previousCurrentCorrection) {
+        setCurrentCorrection(previousCurrentCorrection);
+      }
       handleApiError(err);
     }
-  }, [currentCorrection?.id, handleApiError]);
+  }, [corrections, currentCorrection, sessionCorrections, handleApiError]);
 
   const updateMemo = useCallback(async (correctionId: number, memo: string) => {
     try {

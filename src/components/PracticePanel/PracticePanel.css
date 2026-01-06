@@ -1,0 +1,261 @@
+.practice-panel {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid #bae6fd;
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.practice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.practice-actions {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+}
+
+.practice-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #0369a1;
+}
+
+.skip-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #7dd3fc;
+  background: white;
+  color: #0284c7;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skip-btn:hover {
+  background: #0284c7;
+  color: white;
+  border-color: #0284c7;
+}
+
+.review-start-btn {
+  padding: 6px 12px;
+  border: 1px solid #7dd3fc;
+  border-radius: var(--radius-md);
+  background: white;
+  color: #0284c7;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.review-start-btn:hover {
+  background: #0284c7;
+  color: white;
+  border-color: #0284c7;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+}
+
+.back-to-practice-btn {
+  padding: 6px 12px;
+  border: 1px solid #7dd3fc;
+  border-radius: var(--radius-md);
+  background: white;
+  color: #0284c7;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.back-to-practice-btn:hover {
+  background: #f0f9ff;
+  border-color: #0284c7;
+  color: #0369a1;
+}
+
+.practice-sentence {
+  margin-bottom: var(--space-sm);
+}
+
+.korean-text {
+  margin: 0 0 4px 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.hint-text {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #0369a1;
+}
+
+.practice-input-area {
+  margin-bottom: var(--space-sm);
+}
+
+.practice-input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid #7dd3fc;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  background: white;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.practice-input:focus {
+  outline: none;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
+}
+
+.practice-input:disabled {
+  background: #f0f9ff;
+  color: var(--text-muted);
+}
+
+.practice-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.action-btn {
+  flex: 1;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-btn.next {
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  color: #166534;
+}
+
+.action-btn.next:hover {
+  background: #166534;
+  border-color: #166534;
+  color: white;
+}
+
+.practice-complete {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #0369a1;
+  padding: var(--space-xs) 0;
+}
+
+.practice-loading {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #0369a1;
+  padding: var(--space-md) 0;
+}
+
+.practice-error {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-color: #fecaca;
+}
+
+.error-message {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #dc2626;
+  padding: var(--space-sm) 0;
+}
+
+.action-btn.show-answer {
+  background: #e0e7ff;
+  border: 1px solid #a5b4fc;
+  color: #4338ca;
+}
+
+.action-btn.show-answer:hover {
+  background: #4338ca;
+  border-color: #4338ca;
+  color: white;
+}
+
+.best-answer {
+  margin-top: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+  border: 1px solid #fde047;
+  border-radius: var(--radius-md);
+}
+
+.best-answer-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #a16207;
+  margin-right: var(--space-xs);
+}
+
+.best-answer-text {
+  font-size: 0.9rem;
+  color: #78350f;
+  font-weight: 500;
+}
+
+/* Review 모드 스타일 */
+.start-review-prompt {
+  padding: var(--space-lg) 0;
+  text-align: center;
+}
+
+.start-review-btn {
+  padding: var(--space-sm) var(--space-lg);
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--accent-gradient);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.start-review-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .practice-panel {
+    padding: var(--space-sm);
+  }
+
+  .korean-text {
+    font-size: 0.9rem;
+  }
+
+  .action-btn {
+    font-size: 0.75rem;
+    padding: 6px var(--space-xs);
+  }
+
+  .start-review-btn {
+    padding: var(--space-xs) var(--space-md);
+    font-size: 0.9rem;
+  }
+}

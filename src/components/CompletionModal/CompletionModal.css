@@ -1,0 +1,123 @@
+.completion-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: var(--space-md);
+}
+
+.completion-modal {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 380px;
+  padding: var(--space-xl);
+  text-align: center;
+  animation: completionModalSlideIn 0.4s ease-out;
+}
+
+@keyframes completionModalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.completion-celebration {
+  margin-bottom: var(--space-lg);
+}
+
+.celebration-icon {
+  font-size: 3.5rem;
+  animation: celebrationBounce 0.6s ease-out;
+  margin-bottom: var(--space-sm);
+}
+
+@keyframes celebrationBounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.completion-title {
+  margin: 0 0 var(--space-sm) 0;
+  color: var(--text-primary);
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.completion-message {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.completion-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.completion-continue,
+.completion-close {
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.completion-continue {
+  background: var(--accent-gradient);
+  color: white;
+}
+
+.completion-continue:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+
+.completion-close {
+  background: var(--bg-highlight);
+  border: 2px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.completion-close:hover {
+  background: var(--border-subtle);
+  border-color: var(--border-subtle);
+}
+
+@media (max-width: 768px) {
+  .completion-modal {
+    padding: var(--space-lg);
+  }
+
+  .celebration-icon {
+    font-size: 2.5rem;
+  }
+
+  .completion-title {
+    font-size: 1.2rem;
+  }
+}

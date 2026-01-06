@@ -3,7 +3,8 @@ import {
   CorrectionInput,
   Toast,
   ResultCarousel,
-  ChatInterface
+  ChatInterface,
+  PracticePanel,
 } from '../components';
 import { useCorrectionsContext } from '../contexts/CorrectionsContext';
 import { useToast, useCorrections } from '../hooks';
@@ -71,6 +72,9 @@ export const HomePage: React.FC = () => {
             </div>
           )}
 
+          {/* 연습 영역 */}
+          <PracticePanel />
+
           {/* 입력 영역 */}
           <section className="input-section">
             <CorrectionInput
@@ -92,13 +96,14 @@ export const HomePage: React.FC = () => {
           </section>
         </div>
 
-        {/* 우측: AI 질문하기 사이드바 (30%) */}
+        {/* 우측: AI 도우미 사이드바 (30%) */}
         <aside className="chat-sidebar">
-          <div className="sidebar-header">
-            <h2>🤖 AI 질문하기</h2>
-            <p>영어 궁금한 점 뭐든 물어보세요</p>
-          </div>
-          <ChatInterface />
+          <section className="sidebar-card chat-card">
+            <div className="sidebar-header">
+              <h2>💬 AI 도우미</h2>
+            </div>
+            <ChatInterface />
+          </section>
         </aside>
       </main>
 
